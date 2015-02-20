@@ -1,0 +1,30 @@
+.navbar-default {
+	background:	#3b5998;
+}
+.navbar-inner {
+	background: #3b5998;
+}
+.navbar-default .navbar-brand {
+	color: #BDD;
+}
+.navbar-default .navbar-nav>li>a {
+	color: #fff;
+	font-family: 'Jura', sans-serif;
+}
+.navbar-default .navbar-nav>li>a:hover {
+	color: #BDD;
+}
+.home-login { 
+	cursor: pointer;
+}
+.logo-col-top {
+	margin-top: 30px;
+	padding-bottom: 10px;
+}
+.logo-col-brand {
+	display: inline;
+	font-family: 'Jura', sans-serif;
+}
+.username-align {
+	margin-top: 20px;
+}

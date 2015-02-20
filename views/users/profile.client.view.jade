@@ -1,0 +1,46 @@
+section(data-ng-controller='profileCtrl')
+  .container.layout
+    .col-md-4.bg_blur
+      a.follow_btn.hidden-xs(href='#') Follow
+    .col-md-8.col-xs-12
+      img.img-thumbnail.picture.hidden-xs(data-ng-src='{{ user.google.cachedUserProfile.picture }}')
+      img.img-thumbnail.visible-xs.picture_mob(src='{{ user.google.cachedUserProfile.picture }}')
+      .header
+        .profile-title(ng-if='user')
+          div(ng-init='obj={toggle2:false}')
+            span Title
+            span.edit-btn(alt='edit title', title='edit title', ng-if='!obj.toggle2', ng-click='obj.toggle2 = true')
+              i.glyphicon.glyphicon-edit
+            .profile-title-edit.input-group(ng-if='obj.toggle2')
+              input.form-control(type='text', ng-model='title', placeholder='Title', aria-describedby='basic-addon1')
+              button.btn.btn-success Save
+              button.btn.btn-info(ng-click='obj.toggle2 = false') Cancel
+        h4 Web Developer
+        span
+          | Neque porr quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+          | "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+  .row.nav.layout
+    .col-md-4
+    .col-md-8.col-xs-12
+      .col-md-4.col-xs-4.well
+        i.fa.fa-weixin.fa-lg
+        |  16
+      .col-md-4.col-xs-4.well
+        i.fa.fa-heart-o.fa-lg
+        |  14
+      .col-md-4.col-xs-4.well
+        i.fa.fa-thumbs-o-up.fa-lg
+        |  26
+  .row
+    form
+      .col-xs-6
+        .form-group
+          h3 
+            label(for='career') Career
+          input#career.form-control(type='text', placeholder='ex. Web Developer, Consultant', max='20')
+        .form-group
+          h3
+            label(for='about') Briefly about you
+          textarea#about.form-control(placeholder='ex. Web Developer, Consultant', max='20')
+        i.btn.btn-info(data-ng-click='editprofile()') Edit Profile    
+  

@@ -1,0 +1,63 @@
+extends layout
+
+block content
+  .container
+      .row.logo-col-top
+        .col-xs-12.col-md-8
+          h1.logo-col-brand {\ CODE GOBLINS /}
+        // <div class="col-xs-6 col-md-4 username-align" data-ng-cloak>Hello, {{ user.google.displayName }}</div>
+      nav.navbar.navbar-default
+        .container-fluid
+          // Brand and toggle get grouped for better mobile display
+          .navbar-header
+            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+          #bs-example-navbar-collapse-1.collapse.navbar-collapse
+            ul.nav.navbar-nav
+              li.active
+                a(href='#/home')
+                  | HOME 
+                  span.sr-only (current)
+              li
+                a(href='#') TRENDING
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                  | Dropdown 
+                  span.caret
+                ul.dropdown-menu(role='menu')
+                  li
+                    a(href='#') Action
+                  li
+                    a(href='#') Another action
+                  li
+                    a(href='#') Something else here
+                  li.divider
+                  li
+                    a(href='#') Separated link
+                  li.divider
+                  li
+                    a(href='#') One more separated link
+            form.navbar-form.navbar-left(role='search')
+              .form-group
+                input.form-control(type='text', placeholder='Search')
+              button.btn.btn-default(type='submit') Submit
+            ul.nav.navbar-nav.navbar-right(ng-show='user')
+              li(data-ng-cloak='')
+                a(href='#/profile') {{ user.google.displayName }}
+              li
+                a.home-login(ng-click='logout()')
+                  i.glyphicon.glyphicon-log-out  
+                  span  Logout
+            ul.nav.navbar-nav.navbar-right(ng-hide='user')
+              li
+                a.home-login(ng-click='login()')
+                  i.glyphicon.glyphicon-log-in  
+                  span  Login
+          // /.navbar-collapse
+        // /.container-fluid
+      // inject client
+      div(ui-view='')
+      

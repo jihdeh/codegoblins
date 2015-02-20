@@ -1,0 +1,35 @@
+{
+  "name": "Code Goblins",
+  "version": "1.0.0",
+  "authors": [
+    "BABAJIDE FOWOTADE <babajide.fowotade@andela.co>"
+  ],
+  "description": "An application for software developers and probably randoms in future.",
+  "main": "app.js",
+  "keywords": [
+    "code",
+    "goblins",
+    "angular",
+    "fire"
+  ],
+  "license": "MIT",
+  "homepage": "codegoblins.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "firebase": "~2.1.1",
+    "angularfire": "~0.9.1",
+    "jquery": "~2.1.3",
+    "bootstrap": "~3.3.2",
+    "angular-ui-router": "~0.2.13"
+  },
+  "moduleType": [
+    "node"
+  ]
+}

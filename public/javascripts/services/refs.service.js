@@ -1,6 +1,5 @@
-    var rootRef = new Firebase('https://crackling-fire-1666.firebaseio.com/');
+var rootRef = new Firebase('https://crackling-fire-1666.firebaseio.com/');
 angular.module('codegoblins.service')
-
  .factory('Refs', ['$firebase', function($firebase) {
 
     return {
@@ -9,9 +8,5 @@ angular.module('codegoblins.service')
       usersRef: rootRef.child('users'),
       expertUserRef: rootRef.child('experts')
     };
+    
   }])
-
-	.factory('Auth', ['$firebaseAuth', function($firebaseAuth) {
-	  return $firebaseAuth(rootRef);
-	}]);
-

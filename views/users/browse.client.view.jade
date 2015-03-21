@@ -1,0 +1,31 @@
+section(data-ng-controller='browse')
+	.panel.panel-default.event(data-ng-repeat='user in users')
+		.panel-body(data-ng-if='user.uid !== key')
+			.rsvp.col-xs-2.col-sm-2
+				i 18
+				i nov
+				.hidden-xs
+				span.fa.fa-thumbs-up.fa-2x
+				span.fa.fa-thumbs-down.fa-2x
+			.info.col-xs-8.col-sm-7
+				| Event Title
+				.visible-xs Lorem ipsum dolor sit amet, consectetur adipiscing elitero..
+				.hidden-xs
+					ul.nav.nav-tabs(role='tablist')
+						li(role='presentation')
+							a(href='#profile', aria-controls='profile', role='tab', data-toggle='tab') Profile
+					// Tab panes
+					.tab-content
+						p(data-ng-bind='user.profile.briefProfile || "Nothing to Display"')
+			.author.col-xs-2.col-sm-3
+				.profile-image
+					img(ng-src='{{user.avatar}}')
+				.profile.hidden-xs
+					a(ng-href='/browse/{{user.uid}}')
+						strong(data-ng-bind='user.name')
+					article Event leader and founder of this group
+					.links.hidden-sm
+						i.fa.fa-github-square.fa-2x.col-xs-3
+						i.fa.fa-google-plus-square.fa-2x.col-xs-3
+						i.fa.fa-facebook-square.fa-2x.col-xs-3
+						i.fa.fa-linkedin-square.fa-2x.col-xs-3

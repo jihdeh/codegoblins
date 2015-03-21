@@ -1,8 +1,5 @@
-// .factory('insertUserData', ['$firebase', function($firebase) {
-// 		ref = ref.child('users');
-// 		return $firebase(ref).$asArray();
-// 	}])
+ // angular.module('codegoblins.controller')
 
-// 	.factory('Auth', ['$firebaseAuth', function($firebaseAuth) {
-// 	  return $firebaseAuth(ref);
-// 	}]);
+	// .controller('Auth', ['$firebaseAuth', function($firebaseAuth) {
+	//   return $firebaseAuth(ref);
+	// }]);

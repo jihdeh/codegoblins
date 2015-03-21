@@ -18,11 +18,11 @@ block content
           #bs-example-navbar-collapse-1.collapse.navbar-collapse
             ul.nav.navbar-nav
               li.active
-                a(href='#/home')
+                a(href='/home')
                   | HOME 
                   span.sr-only (current)
               li
-                a(href='#') TRENDING
+                a(href='/browse') Browse
               li.dropdown
                 a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
                   | Dropdown 
@@ -46,7 +46,7 @@ block content
               button.btn.btn-default(type='submit') Submit
             ul.nav.navbar-nav.navbar-right(ng-show='user')
               li(data-ng-cloak='')
-                a(href='#/profile') {{ user.google.displayName }}
+                a(href='/profile') {{ user.google.displayName }}
               li
                 a.home-login(ng-click='logout()')
                   i.glyphicon.glyphicon-log-out  
@@ -60,4 +60,3 @@ block content
         // /.container-fluid
       // inject client
       div(ui-view='')
-      

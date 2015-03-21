@@ -2,20 +2,29 @@ doctype html
 html
   head
     title= title
+    base(href='/')
     link(rel='stylesheet', href='/lib/bootstrap/dist/css/bootstrap.min.css ')
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/profile.css')
     link(href='http://fonts.googleapis.com/css?family=Glegoo|Philosopher|Audiowide|Jura|Cinzel+Decorative', rel='stylesheet', type='text/css')
     link(href='http://fonts.googleapis.com/css?family=Open+Sans', rel='stylesheet', type='text/css')
     link(href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css', rel='stylesheet')
+
+    link(href='/lib/angular-toastr/dist/angular-toastr.css',  rel='stylesheet')
+
     script(type="text/javascript", src='/lib/angular/angular.js')
     script(type="text/javascript", src='/lib/angular-ui-router/release/angular-ui-router.min.js')
     script(type="text/javascript", src='/lib/firebase/firebase.js')
     script(type="text/javascript", src='/lib/angularfire/dist/angularfire.min.js')
     script(type="text/javascript", src='/lib/jquery/dist/jquery.min.js')
     script(type="text/javascript", src='/lib/bootstrap/dist/js/bootstrap.min.js')
+    script(type="text/javascript", src='/lib/ment.io/dist/mentio.min.js')
+    script(type="text/javascript", src='/lib/angular-animate/angular-animate.js')
+    script(type="text/javascript", src='/lib/angular-toastr/dist/angular-toastr.tpls.js')
+    script(type="text/javascript", src='/lib/lodash/lodash.min.js')
     script(type="text/javascript", src='/server/index.js')
 
+
   body
-  span(data-ng-app='CodeGoblins' data-ng-controller='HomeCtrl') 
+  span(data-ng-app='CodeGoblins' data-ng-controller='HomeCtrl')
     block content

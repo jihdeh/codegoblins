@@ -1,7 +1,26 @@
- angular.module('codegoblins.service')
+angular.module('codegoblins.service')
+  .factory('Users', ['$http', '$stateParams', function($http, $stateParams) {
+    return {
 
- .factory('insertUserData', ['Refs', '$firebase', function(Refs, $firebase) {
-		var ref = Refs.rootRef.usersRef;
-		return $firebase(ref).$asArray();
-		console.log(Refs.rootRef.usersRef);
-	}]);
+      findAll: function(cb) {
+        return $http.get('/users')
+          .success(function(data, status, headers, config) {
+            return data;
+          })
+          .error(function(data, status, headers, config) {
+            return ({status: 'false'});
+          });
+      },
+
+      findOne: function(cb) {
+        return $http.get('/users/' + $stateParams.id)
+          .success(function(data, status, headers, config) {
+            return data;
+          })
+          .error(function(data, status, headers, config) {
+            return ({status: 'false'});
+          });
+      }
+    };
+
+  }]);

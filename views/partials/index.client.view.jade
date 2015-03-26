@@ -1,50 +1,30 @@
-html
-  body
-    section
-      #content.row-fluid
-        #carousel-example-generic.carousel.slide(data-ride='carousel')
-          ol.carousel-indicators
-            li.active(data-target='#carousel-example-generic', data-slide-to='0')
-            li(data-target='#carousel-example-generic', data-slide-to='1')
-            li(data-target='#carousel-example-generic', data-slide-to='2')
-          .carousel-inner
-            .item.active
-              img(src='http://placehold.it/1200x315', alt='...')
-              .carousel-caption
-                h3 Caption Text
-            .item
-              img(src='http://placehold.it/1200x315', alt='...')
-              .carousel-caption
-                h3 Caption Text
-            .item
-              img(src='http://placehold.it/1200x315', alt='...')
-              .carousel-caption
-                h3 Caption Text
-          a.left.carousel-control(href='#carousel-example-generic', role='button', data-slide='prev')
-            span.glyphicon.glyphicon-chevron-left
-          a.right.carousel-control(href='#carousel-example-generic', role='button', data-slide='next')
-            span.glyphicon.glyphicon-chevron-right
-        .col-md-2
-          h3 Left Sidebar
-          ul.nav.nav-tabs.nav-stacked
-            li
-              a(href='#') Another Link 1
-            li
-              a(href='#') Another Link 2
-            li
-              a(href='#') Another Link 3
-        .col-md-8.main
-          h2 Main Content Section
-          p
-            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum.
-          p
-            | Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.
-        .col-md-2.sidebar
-          h3 Right Sidebar
-          ul.nav.nav-tabs.nav-stacked
-            li
-              a(href='#') Another Link 1
-            li
-              a(href='#') Another Link 2
-            li
-              a(href='#') Another Link 3
+main
+  section
+    img.main-header-container.responsive-img(src='/images/code-wallpaper-2.jpg')
+    .row.center.home-info
+      .col.s12.m4.l4
+        .center.promo
+          i.large.mdi-action-stars.home-icons
+          p.promo-caption Speeds up development
+          p.light.center
+            | We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.
+      .col.s12.m4.l4
+        .center.promo
+          i.large.mdi-action-find-replace.home-icons
+          p.promo-caption Search Randomly
+          p.light.center
+            | We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.
+      .col.s12.m4.l4
+        .center.promo
+          i.large.mdi-action-group-work.home-icons
+          p.promo-caption Connect with other developers
+          p.light.center
+            | We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.
+    .container
+      .progress
+        .indeterminate
+      .row.center
+        .col.s12.m6.l6
+          h2 Hello World
+        .col.s12.m6.l6
+          h2 Hello World

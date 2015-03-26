@@ -1,14 +1,72 @@
+$(document).ready(function() {
+  $('.button-collapse').sideNav(); //button collapse
+   $('.slider').slider({full_width: true}); //home slider
+   $('.parallax').parallax();
+
+   (function(){
+// set up the timeout variable
+var t;
+// setup the sizing function,
+// with an argument that tells the chart to animate or not
+function size(animate){
+    // If we are resizing, we don't want the charts drawing on every resize event.
+    // This clears the timeout so that we only run the sizing function
+    // when we are done resizing the window
+    clearTimeout(t);
+    // This will reset the timeout right after clearing it.
+    t = setTimeout(function(){
+        $("canvas").each(function(i,el){
+            // Set the canvas element's height and width to it's parent's height and width.
+            // The parent element is the div.canvas-container
+            $(el).attr({
+                "width":$(el).parent().width(),
+                "height":$(el).parent().outerHeight()
+            });
+        });
+        // kickoff the redraw function, which builds all of the charts.
+        redraw(animate);
+
+        // loop through the widgets and find the tallest one, and set all of them to that height.
+        var m = 0;
+        // we have to remove any inline height setting first so that we get the automatic height.
+        $(".widget").height("");
+        $(".widget").each(function(i,el){ m = Math.max(m,$(el).height()); });
+        $(".widget").height(m);
+
+    }, 100); // the timeout should run after 100 milliseconds
+}
+$(window).on('resize', size);
+function redraw(animation){
+    var options = {};
+    if (!animation){
+        options.animation = false;
+    } else {
+        options.animation = true;
+    }
+    // ....
+        // the rest of our chart drawing will happen here
+    // ....
+}
+size(); // this kicks off the first drawing; note that the first call to size will animate the charts in.
+})();
+
+});
 'use strict';
 angular.module('codegoblins.service', []);
 angular.module('codegoblins.controller', []);
+angular.module('codegoblins.filter', []);
 angular.module('CodeGoblins', [
         'ui.router',
         'ngAnimate',
         'toastr',
+        'lumx',
+        'chart.js',
         'firebase',
         'mentio',
+        'oitozero.ngSweetAlert',
         'codegoblins.controller',
-        'codegoblins.service'
+        'codegoblins.service',
+        'codegoblins.filter'
     ])
 .run(["$rootScope", "$state", 'Refs', function($rootScope, $state, Refs) {
   $rootScope._ = window._;
@@ -50,8 +108,8 @@ angular.module('CodeGoblins', [
                     templateUrl: 'views/users/browse.client.view.html'
                 })
                 .state('users', {
-                  url: '/browse/:id',
-                  templateUrl: 'views/users/userbrowse.client.view.html',
+                  url: '/profile/:id',
+                  templateUrl: 'views/users/public_profile.client.view.html',
                   controller: function($scope, $stateParams) {
 
                   }
@@ -66,6 +124,7 @@ angular.module('CodeGoblins', [
 angular.module('codegoblins.controller')
   .controller('browse', ['$scope', '$http', '$rootScope', 'Refs', 'Profiles', '$timeout', 'Users', function($scope, $http, $rootScope, Refs, Profiles, $timeout, Users) {
 
+    $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
     console.log($rootScope.user);
     Users.findAll().then(function(response) {
       $scope.users = response.data;
@@ -73,13 +132,7 @@ angular.module('codegoblins.controller')
       return 'Error Occured';
     });
 
-    Users.findOne().then(function(response) {
-      $scope.userDetails = response.data;
-    },function(error) {
-      return 'No data returned';
-    });
-
-  }]);
+}]);
 
 angular.module('codegoblins.controller')
   .controller('HomeCtrl', ['$scope', '$location', '$timeout', 'Refs', '$rootScope', function($scope, $location, $timeout, Refs, $rootScope) {
@@ -119,50 +172,89 @@ angular.module('codegoblins.controller')
   }]);
 
 angular.module('codegoblins.controller')
-  .controller('profileCtrl', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', function($scope, Refs, Profiles, $rootScope, toastr, $timeout) {
+  .controller('profile', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert) {
 
     $rootScope.user = Refs.rootRef.getAuth(); //get current authentication
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
 
     var getCareer = (function() {
-      Profiles.getProfile($rootScope.key, function(data) {
-        if (data) {
-          $timeout(function() {
-            $scope.displayCareer = data.career;
-            $scope.displayDesc = data.briefProfile;
-            $scope.getProjects = data.projects;
-          });
-        }
-      });
+        Profiles.getProfile($rootScope.key, function(data) {
+            if (data) {
+                $timeout(function() {
+                    $scope.displayCareer = data.career;
+                    $scope.displayDesc = data.briefProfile;
+                    $scope.displayNick = data.nickname;
+                    $scope.getProjects = data.projects;
+                });
+            }
+        });
     })();
 
-    $scope.editprofile = function() { //edit profile
-
+    $scope.editCareerProfile = function() {
       Profiles.updateProfile({
-        briefProfile: $scope.briefProfile,
-        career: $scope.career
+          career: $scope.career
       }, function(err) {
-        if (!err) {
-          toastr.success('Successfully saved');
-          $scope.briefProfile = '';
-          $scope.career = '';
-        }
+          if (!err) {
+            toastr.success('Successfully saved');
+            $scope.career = '';
+            SweetAlert.swal('Data Saved!', 'New Career: '+ $scope.displayCareer, 'success');
+          }
+      });
+    };
+
+    $scope.editNickNameProfile = function() {
+      Profiles.updateProfile({
+          nickname: $scope.nickName
+      }, function(err) {
+          if (!err) {
+            toastr.success('Successfully saved');
+            $scope.nickName = '';
+            SweetAlert.swal('Data Saved!', 'New Nick-Name: '+ $scope.displayNick, 'success');
+          }
+      });
+    };
+
+    $scope.editProfileMessage = function() {
+      Profiles.updateProfile({
+          briefProfile: $scope.briefProfile
+      }, function(err) {
+          if (!err) {
+            toastr.success('Successfully saved');
+            $scope.briefProfile = '';
+            SweetAlert.swal('Data Saved!', 'New Nick-Name: '+ $scope.displayDesc, 'success');
+          }
       });
     };
 
     $scope.submitProject = function() {
-      Refs.usersRef.child($rootScope.key).child('profile').child('projects').push($scope.session.projectUrl, function(err) {
-        if (!err) {
-          toastr.success('Successfully added project');
-          $scope.session.projectUrl = '';
-        }
-      });
+        Refs.usersRef.child($rootScope.key).child('profile').child('projects').push($scope.session.projectUrl, function(err) {
+            if (!err) {
+                toastr.success('Successfully added project');
+                $scope.session.projectUrl = '';
+            }
+        });
     };
-    // $scope.getProjects = Refs.usersRef.child($rootScope.user.auth.uid).child('profile').child('projects').on('value', function(snapshot) {
-    //   console.log(snapshot.val());
-    // }, function(errorObject) {
-    //   console.log("The read failed: " + errorObject.code);
-    // });
+
+    Users.findOne().then(function(response) {
+        $scope.userDetails = response.data;
+    }, function(error) {
+        return 'No data returned';
+    });
+
+    $scope.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+                      'November', 'December'];
+    $scope.series = ['Series A', 'Series B'];
+    $scope.colours = ['red', 'purple'];
+    $scope.options = {
+        animation: false
+    }
+    $scope.data = [
+      [35, 78, 80, 81, 56, 55, 40, 32, 54, 55, 20, 47],
+      [28, 48, 40, 67, 86, 27, 20, 32, 54, 55, 20, 87]
+    ];
+    $scope.onClick = function (points, evt) {
+      console.log(points, evt);
+    };
 
   }]);
 
@@ -254,3 +346,13 @@ angular.module('codegoblins.service')
     };
 
   }]);
+angular.module('codegoblins.filter')
+  .filter('array', function() {
+      return function(items) {
+          var filtered = [];
+          angular.forEach(items, function(item) {
+              filtered.push(item);
+          });
+          return filtered;
+      };
+  });

@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Code Goblins' });
 });
 
-var routes = ['/login', '/trends', '/updates', '/profile', '/browse', '/browse/*', '/about']
+var routes = ['/login', '/trends', '/updates', '/profile', '/browse', '/profile/*', '/about']
 
 router.get(routes, function(req, res) {
 	res.render('index');

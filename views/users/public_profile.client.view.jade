@@ -1,0 +1,69 @@
+section(data-ng-controller='profile')
+  .row.side-row
+    .col.s12.m3.l3.side-nav.z-depth-2
+      img.center.responsive-img.profile-image-side-nav.z-depth-1(data-ng-src='{{ userDetails.avatar }}')
+      div(flex-item='6')
+        span.fs-title.display-block.mb Information
+        .divider.divider--dark
+        ul.list(class='mt++')
+          li.list-row.list-row--multi-line
+            .list-row__primary
+              i.icon.icon--s.icon--grey.icon--flat.mdi.mdi-send
+            .list-row__content
+              span.display-block Display Name
+              span.display-block.fs-body-1.tc-black-2(data-ng-bind='userDetails.name')
+          li.list-row.list-row--multi-line
+            .list-row__primary
+              i.icon.icon--s.icon--grey.icon--flat.mdi-action-perm-identity
+            .list-row__content
+              span.display-block Nickname
+              span.display-block.fs-body-1.tc-black-2(data-ng-bind='userDetails.profile.nickname || "No nickname"')
+          li.list-row.list-row--multi-line
+            .list-row__primary
+              i.icon.icon--s.icon--grey.icon--flat.mdi.mdi-pencil
+            .list-row__content
+              span.display-block Profile Message
+              span.display-block.fs-body-1.tc-black-2(data-ng-bind='userDetails.profile.briefProfile || "No personal message yet"')
+          li.list-row.list-row--multi-line
+            .list-row__primary
+              i.icon.icon--s.icon--grey.icon--flat.mdi.mdi-briefcase-check
+            .list-row__content
+              span.display-block Professional Career
+              span.display-block.fs-body-1.tc-black-2(data-ng-bind='userDetails.profile.career || "No career"')
+    .col.s12.m3.l3
+      .social-count-icons
+        div(flex-item='6')
+        span.fs-title.display-block.mb Commendations
+        .divider.divider--dark
+        ul.list(class='mt++')
+          li.list-row.list-row--multi-line
+            .list-row__primary
+              i.fa.fa-weixin.fa-lg
+            .list-row__content
+              span.display-block 22 Commendations
+              span.display-block.fs-body-1.tc-black-2 Nice
+    .col.s12.m3.l3
+      .social-count-icons
+        div(flex-item='6')
+        span.fs-title.display-block.mb Social Likes
+        .divider.divider--dark
+        ul.list(class='mt++')
+          li.list-row.list-row--multi-line
+            .list-row__primary
+              i.fa.fa-heart-o.fa-lg
+            .list-row__content
+              span.display-block 22 Likes
+              span.display-block.fs-body-1.tc-black-2 Nice
+    .col.s12.m3.l3
+      .social-count-icons
+        div(flex-item='6')
+        span.fs-title.display-block.mb Has answered
+        .divider.divider--dark
+        ul.list(class='mt++')
+          li.list-row.list-row--multi-line
+            .list-row__primary
+              i.fa.fa-thumbs-o-up.fa-lg
+            .list-row__content
+              span.display-block 22 Solutions
+              span.display-block.fs-body-1.tc-black-2 Nice
+      //- {{userDetails}}

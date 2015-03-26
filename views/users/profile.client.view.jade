@@ -1,60 +1,114 @@
-section(data-ng-controller='profileCtrl')
-  .container.layout
-    .col-md-4.bg_blur
-      a.follow_btn.hidden-xs(href='#') Follow
-    .col-md-8.col-xs-12
-      img.img-thumbnail.picture.hidden-xs(data-ng-src='{{ user.google.cachedUserProfile.picture }}')
-      img.img-thumbnail.visible-xs.picture_mob(src='{{ user.google.cachedUserProfile.picture }}')
-      .header
-        h3 Profile stats
-        h4 {{ displayCareer }}
-        span
-          | {{ displayDesc }}
-        h2 Top Rated Projects
+section(data-ng-controller='profile')
+  .row.side-row
+    .col.s12.m3.l3.side-nav.z-depth-2
+      img.center.responsive-img.profile-image-side-nav.z-depth-1(data-ng-src='{{ user.google.cachedUserProfile.picture }}')
+      div(flex-item='6')
+        span.fs-title.display-block.mb Information
+        .divider.divider--dark
+        ul.list(class='mt++')
+          li.list-row.list-row--multi-line
+            .list-row__primary
+              i.icon.icon--s.icon--grey.icon--flat.mdi.mdi-send
+            .list-row__content
+              span.display-block Display Name
+              span.display-block.fs-body-1.tc-black-2(data-ng-bind='user.google.displayName || "Unavaliable"')
+          li.list-row.list-row--multi-line
+            .list-row__primary
+              i.icon.icon--s.icon--grey.icon--flat.mdi-action-perm-identity
+            .list-row__content
+              span.display-block Nickname
+              span.display-block.fs-body-1.tc-black-2(data-ng-bind='displayNick || "No Nickname"')
+          li.list-row.list-row--multi-line
+            .list-row__primary
+              i.icon.icon--s.icon--grey.icon--flat.mdi.mdi-pencil
+            .list-row__content
+              span.display-block Profile Message
+              span.display-block.fs-body-1.tc-black-2(data-ng-bind='displayDesc || "No public profile message"')
+          li.list-row.list-row--multi-line
+            .list-row__primary
+              i.icon.icon--s.icon--grey.icon--flat.mdi.mdi-briefcase-check
+            .list-row__content
+              span.display-block Professional Career
+              span.display-block.fs-body-1.tc-black-2(data-ng-bind='displayCareer || "No careers"')
+      .social-count-icons
+        .row
+        .col-md-4.col-xs-4.well
+          i.fa.fa-weixin.fa-lg
+          |  16
+        .col-md-4.col-xs-4.well
+          i.fa.fa-heart-o.fa-lg
+          |  14
+        .col-md-4.col-xs-4.well
+          i.fa.fa-thumbs-o-up.fa-lg
+          |  26
+    .col.s12.m9.l9
+      .container
+        .chart-container
+          canvas#line.chart.chart-line(data='data' labels='labels' colours='colours' legend='true' series='series' click='onClick')
+      .divider
+      .row(ng-show='user')
+        form.col.s12(name='nickname' novalidate)
+          .row(ng-class="{'has-error': nickname.nickName.$invalid && nickname.nickName.$dirty}")
+            .input-field.col.s6
+              i.mdi-action-account-circle.prefix
+              input#icon_prefix.validate(type='text' ng-model='nickName' max='20' required)
+              label(for='icon_prefix') Nickname  
+            .input-field.col.s6
+              button.btn.waves-effect.waves-light(data-ng-disabled='!nickname.$valid' data-ng-click='editNickNameProfile()')
+                | Submit
+                i.mdi-content-send.right
+        form.col.s12(name='profileCareer' novalidate)
+          .row(ng-class="{'has-error': profileCareer.career.$invalid && profileCareer.career.$dirty}")
+            .input-field.col.s6
+              i.mdi.mdi-briefcase-check.prefix
+              input#icon_career.validate(type='text' ng-model='career' max='20' required)
+              label(for='icon_career') Professional Career 
+            .input-field.col.s6
+              button.btn.waves-effect.waves-light(data-ng-disabled='!profileCareer.$valid' data-ng-click='editCareerProfile()')
+                | Submit
+                i.mdi-content-send.right
+          span.help-block(ng-show='profileCareer.career.$error.required') Required
+        form.col.s12(name='profileMessage' novalidate)
+          .row(ng-class="{'has-error': profileMessage.briefProfile.$invalid && profileMessage.briefProfile.$dirty}")
+            .input-field.col.s6
+              i.mdi.mdi-format-align-left.prefix
+              textarea#pmTextArea.materialize-textarea(type='text' ng-model='briefProfile' max='70' required)
+              label(for='pmTextArea') Profile Message 
+            .input-field.col.s6
+              button.btn.waves-effect.waves-light(data-ng-disabled='!profileMessage.$valid' data-ng-click='editProfileMessage()')
+                | Submit
+                i.mdi-content-send.right
+        //- .row
+  //-   form(name='profile' novalidate)
+  //-     .col-md-6
+  //-       .form-group(ng-class="{'has-error': profile.career.$invalid && profile.career.$dirty}")
+  //-         h3 
+  //-           label(for='career') Career
+  //-         input#career.form-control(type='text', name='career', data-ng-model='career' placeholder='ex. Web Developer, Consultant', max='20', required)
+  //-         span.help-block(ng-show='profile.career.$error.required') Required
+  //-       .form-group(ng-class="{'has-error': profile.aboutProfile.$invalid && profile.aboutProfile.$dirty}")
+  //-         h3
+  //-           label(for='about') Briefly about you
+  //-         textarea#about.form-control(data-ng-model='briefProfile', name='aboutProfile', placeholder='Tell people about yourself', max='100' required)
+  //-         span.help-block(ng-show='profile.aboutProfile.$error.required') Required
+  //-       i.btn.btn-info(data-ng-disabled='!profile.$valid' data-ng-click='editprofile()') Edit Profile  
 
-  .row.nav.layout
-    .col-md-4
-    .col-md-8.col-xs-12
-      .col-md-4.col-xs-4.well
-        i.fa.fa-weixin.fa-lg
-        |  16
-      .col-md-4.col-xs-4.well
-        i.fa.fa-heart-o.fa-lg
-        |  14
-      .col-md-4.col-xs-4.well
-        i.fa.fa-thumbs-o-up.fa-lg
-        |  26
-  .row
-    form(name='profile' novalidate)
-      .col-md-6
-        .form-group(ng-class="{'has-error': profile.career.$invalid && profile.career.$dirty}")
-          h3 
-            label(for='career') Career
-          input#career.form-control(type='text', name='career', data-ng-model='career' placeholder='ex. Web Developer, Consultant', max='20', required)
-          span.help-block(ng-show='profile.career.$error.required') Required
-        .form-group(ng-class="{'has-error': profile.aboutProfile.$invalid && profile.aboutProfile.$dirty}")
-          h3
-            label(for='about') Briefly about you
-          textarea#about.form-control(data-ng-model='briefProfile', name='aboutProfile', placeholder='Tell people about yourself', max='100' required)
-          span.help-block(ng-show='profile.aboutProfile.$error.required') Required
-        i.btn.btn-info(data-ng-disabled='!profile.$valid' data-ng-click='editprofile()') Edit Profile  
+  //-   form(name='projectForm', novalidate='')
+  //-     .col-md-6
+  //-       .form-group(ng-class="{'has-error': projectForm.projectUrl.$invalid && projectForm.projectUrl.$dirty}")
+  //-         h3 
+  //-           label(for='projects') Projects
+  //-         input.form-control(name='projectUrl', type='text', placeholder='Enter your project Urls', required='', ng-model='session.projectUrl')
+  //-         span.help-block(ng-show='projectForm.projectUrl.$error.required') Required
+  //-       .form-group
+  //-         button.btn.btn-primary.pull-right(type='submit', value='submit', data-ng-click='submitProject()', title='Submit', ng-disabled='!projectForm.$valid')
+  //-           span Submit
 
-    form(name='projectForm', novalidate='')
-      .col-md-6
-        .form-group(ng-class="{'has-error': projectForm.projectUrl.$invalid && projectForm.projectUrl.$dirty}")
-          h3 
-            label(for='projects') Projects
-          input.form-control(name='projectUrl', type='text', placeholder='Enter your project Urls', required='', ng-model='session.projectUrl')
-          span.help-block(ng-show='projectForm.projectUrl.$error.required') Required
-        .form-group
-          button.btn.btn-primary.pull-right(type='submit', value='submit', data-ng-click='submitProject()', title='Submit', ng-disabled='!projectForm.$valid')
-            span Submit
-
-    div
-      .col-md-6
-          ul
-            li(data-ng-repeat='projects in getProjects')
-               {{projects}}
+  //-   div
+  //-     .col-md-6
+  //-         ul
+  //-           li(data-ng-repeat='projects in getProjects')
+  //-              {{projects}}
 
 
 

@@ -1,14 +1,19 @@
 'use strict';
 angular.module('codegoblins.service', []);
 angular.module('codegoblins.controller', []);
+angular.module('codegoblins.filter', []);
 angular.module('CodeGoblins', [
         'ui.router',
         'ngAnimate',
         'toastr',
+        'lumx',
+        'chart.js',
         'firebase',
         'mentio',
+        'oitozero.ngSweetAlert',
         'codegoblins.controller',
-        'codegoblins.service'
+        'codegoblins.service',
+        'codegoblins.filter'
     ])
 .run(["$rootScope", "$state", 'Refs', function($rootScope, $state, Refs) {
   $rootScope._ = window._;
@@ -50,8 +55,8 @@ angular.module('CodeGoblins', [
                     templateUrl: 'views/users/browse.client.view.html'
                 })
                 .state('users', {
-                  url: '/browse/:id',
-                  templateUrl: 'views/users/userbrowse.client.view.html',
+                  url: '/profile/:id',
+                  templateUrl: 'views/users/public_profile.client.view.html',
                   controller: function($scope, $stateParams) {
 
                   }

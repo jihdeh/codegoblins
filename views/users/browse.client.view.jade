@@ -8,9 +8,9 @@ section(data-ng-controller='browse')
 		.col.s6.m3.l3(data-ng-repeat='user in users | array | filter:searchText')
 			.center.promo.browse-col.z-depth-1(data-ng-if='user.uid !== key')
 				.browse-inner-grid
-					img.circle.responsive-img.browse-img(ng-src='{{user.avatar}}')
+					img.circle.responsive-img.browse-img(ng-src='{{user.profile.avatar}}')
 				.browse-inner-grid-2
 					h6.promo-caption(data-ng-bind='user.name')
-					p.light.center(data-ng-bind='user.profile.briefProfile || "Nothing to Display"')
+					p.light.center.truncate(data-ng-bind='user.profile.briefProfile || "Nothing to Display"')
 					a(ng-href='/profile/{{user.uid}}')
 						button.waves-effect.waves-light.btn Visit Profile

@@ -1,7 +1,7 @@
-section(data-ng-controller='profile')
+section(data-ng-controller='publicProfile')
   .row.side-row
     .col.s12.m3.l3.side-nav.z-depth-2
-      img.center.responsive-img.profile-image-side-nav.z-depth-1(data-ng-src='{{ userDetails.avatar }}')
+      img.center.responsive-img.profile-image-side-nav.z-depth-1(data-ng-src='{{ userDetails.profile.avatar }}')
       div(flex-item='6')
         span.fs-title.display-block.mb Information
         .divider.divider--dark
@@ -40,7 +40,7 @@ section(data-ng-controller='profile')
             .list-row__primary
               i.fa.fa-weixin.fa-lg
             .list-row__content
-              span.display-block 22 Commendations
+              span.display-block{{getCommendationLen}} Commendations
               span.display-block.fs-body-1.tc-black-2 Nice
     .col.s12.m3.l3
       .social-count-icons
@@ -66,4 +66,28 @@ section(data-ng-controller='profile')
             .list-row__content
               span.display-block 22 Solutions
               span.display-block.fs-body-1.tc-black-2 Nice
-      //- {{userDetails}}
+    .col.s12.m9.l9
+      .container
+        p Last seen: 2 days ago
+        div(flex-item='6')
+          span.fs-title.display-block.mb Commendations
+        .divider.divider--dark
+        md-content
+          md-list
+            md-item(ng-repeat='item in commendsData')
+              md-item-content
+                .md-tile-left
+                  img.face(ng-src='{{item.avatar || "http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=500"}}', alt='{{userDetails.profile.nickname}}')
+                .md-tile-content
+                  h3.commendation-title {{item.topic}}
+                  a(ng-href='/profile/{{item.uid}}')
+                    h4.commendation-user(data-ng-bind='item.nickname')
+                  p.commendation-note
+                    | {{item.commends}}
+                p.right-align 
+                    | Hello
+              .divider.divider--dark
+            br
+            md-button#btn-commends.md-raised.md-primary.md-hue-2(ng-click='showDialog($event)')
+              | Add your commendation about this person
+            

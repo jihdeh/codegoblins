@@ -18,3 +18,38 @@
 .chart-container {
   margin: 30px 0;
 }
+.face {
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  width: 48px;
+  margin: 16px; 
+}
+.commendation-title {
+  line-height: 2px;
+  font-weight: bold;
+}
+.commendation-user {
+  /*line-height: 2px;*/ 
+  display: inline ;
+}
+/*.commendation-note {
+  line-height: 2px;
+}*/
+.md-tile-content p {
+  font-size: 1em;
+}
+.commend-dialog {
+  width: 50%;
+}
+.commend-modal-btn {
+  margin: 11px;
+}
+.mdi-action-account-circle .prefix .active {
+  color: red;
+}
+.md-tile-content {
+  padding: 30px 16px 16px 16px;
+}
+.md-tile-content h3 {
+  margin: 0 0 10px 0;
+}

@@ -9,10 +9,12 @@ html
     link(rel='stylesheet', href='/lib/materialize/dist/css/materialize.min.css')
     link(rel='stylesheet', href='/lib/mdi/css/materialdesignicons.css')
     link(rel='stylesheet', href='/lib/angular-chart.js/dist/angular-chart.css')
+    link(rel='stylesheet', href='/lib/ng-tags-input/ng-tags-input.css')
     link(rel='stylesheet', href='/lib/sweetalert/lib/sweet-alert.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/profile.css')
     link(rel='stylesheet', href='/stylesheets/browse.css')
+    link(rel='stylesheet', href='/stylesheets/questions.css')
     link(href='http://fonts.googleapis.com/css?family=Glegoo|Philosopher|Audiowide|Jura|Cinzel+Decorative', rel='stylesheet', type='text/css')
     link(href='http://fonts.googleapis.com/css?family=Open+Sans', rel='stylesheet', type='text/css')
     link(href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css', rel='stylesheet')
@@ -20,19 +22,20 @@ html
 
     link(href='/lib/angular-toastr/dist/angular-toastr.css',  rel='stylesheet')
 
-    script(type="text/javascript", src='/lib/angular/angular.js')
+    script(type="text/javascript", src='/lib/jquery/dist/jquery.min.js')
     script(type="text/javascript", src='/lib/velocity/velocity.js')
+    script(type="text/javascript", src='/lib/angular/angular.js')
     script(type="text/javascript", src='/lib/moment/moment.js')
+    script(type="text/javascript", src='/lib/angular-moment/angular-moment.js')
     script(type="text/javascript", src='/lib/lumx/dist/lumx.js')
+    script(type="text/javascript", src='/lib/ng-tags-input/ng-tags-input.js')
     script(type="text/javascript", src='/lib/angular-ui-router/release/angular-ui-router.min.js')
     script(type="text/javascript", src='/lib/firebase/firebase.js')
     script(type="text/javascript", src='/lib/angularfire/dist/angularfire.min.js')
-    script(type="text/javascript", src='/lib/jquery/dist/jquery.min.js')
-    script(type="text/javascript", src='/lib_incompatible/angular-sweetalert/SweetAlert.js')
+    script(type="text/javascript", src='/components/angular-sweetalert/SweetAlert.js')
     script(type="text/javascript", src='/lib/sweetalert/lib/sweet-alert.js')
     script(type="text/javascript", src='/javascripts/scripts.js')
     script(type="text/javascript", src='/lib/bootstrap/dist/js/bootstrap.min.js')
-    script(type="text/javascript", src='/lib_incompatible/angular-bootstrap/ui-bootstrap-tpls.js')
     script(type="text/javascript", src='/lib/materialize/dist/js/materialize.js')
     script(type="text/javascript", src='/lib/ment.io/dist/mentio.min.js')
     script(type="text/javascript", src='/lib/angular-animate/angular-animate.js')
@@ -47,5 +50,5 @@ html
 
 
   body
-  span(data-ng-app='CodeGoblins' data-ng-controller='HomeCtrl')
+  span(data-ng-app='CodeGoblins' data-ng-controller='AuthCtrl')
     block content

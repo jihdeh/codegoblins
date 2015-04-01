@@ -2,7 +2,7 @@ angular.module('codegoblins.service')
   .factory('Profiles', ['Refs', '$rootScope', '$stateParams', function(Refs, $rootScope, $stateParams) {
     return {
       getProfile: function(userId, cb) {
-        Refs.usersRef.child($rootScope.key).child('profile').once('value', function(snap) {
+        Refs.usersRef.child($rootScope.key).child('profile').on('value', function(snap) {
           if (snap) {
             cb(snap.val());
           } else {

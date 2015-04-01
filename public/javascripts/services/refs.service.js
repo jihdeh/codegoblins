@@ -6,7 +6,9 @@ angular.module('codegoblins.service')
       rootRef: rootRef,
       testUserRef: rootRef.child('testUsers'),
       usersRef: rootRef.child('users'),
-      expertUserRef: rootRef.child('experts')
+      expertUserRef: rootRef.child('experts'),
+      tagsRef: rootRef.child('tags'),
+      questionsRef: rootRef.child('questions')
     };
     
   }])

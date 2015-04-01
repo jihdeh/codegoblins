@@ -8,89 +8,83 @@ angular.module('codegoblins.service', []);
 angular.module('codegoblins.controller', []);
 angular.module('codegoblins.filter', []);
 angular.module('CodeGoblins', [
-        'ui.router',
-        'ngAnimate',
-        'toastr',
-        'lumx',
-        'chart.js',
-        'firebase',
-        'mentio',
-        'ngMaterial',
-        'ui.bootstrap',
-        'ngMessages',
-        'oitozero.ngSweetAlert',
-        'codegoblins.controller',
-        'codegoblins.service',
-        'codegoblins.filter'
-    ])
-.run(["$rootScope", "$state", 'Refs', function($rootScope, $state, Refs) {
-  $rootScope._ = window._;
-  $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, error) {
-    // and redirect the user back to the home page
-      // var states = (toState.name !== 'signup' && toState.name !== 'login' && toState.name !== 'reset-password' && toState.name !== 'error_404');
-      //  console.log('ahahahha');
-      //  if(states) {
-      //   console.log(states);
-      //   event.preventDefault();
-      //   $state.go('error_404');
-      //  }
-      //  else {
-      //   console.log('deeper');
-      //  }
-  });
-}])
-        .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
-            $locationProvider.html5Mode(true).hashPrefix('!');
-            $urlRouterProvider.otherwise('/');
-
-            $stateProvider
-
-                .state('home', {
-                    url: '/',
-                    templateUrl: 'views/partials/index.client.view.html'
-                })
-                .state('about', {
-                    url: '/about',
-                    templateUrl: 'views/partials/about.html'
-                })
-                .state('profile', {
-                    controllerProvider: 'HomeCtrl',
-                    url: '/profile',
-                    templateUrl: 'views/users/profile.client.view.html'
-                })
-                .state('browse', {
-                    url: '/browse',
-                    templateUrl: 'views/users/browse.client.view.html'
-                })
-                .state('users', {
-                  url: '/profile/:id',
-                  templateUrl: 'views/users/public_profile.client.view.html',
-                  controller: function($scope, $stateParams) {
-
-                  }
-                })
-                .state('error_404', {
-                    url: '/error_404',
-                    templateUrl: 'views/error.html'
-                });
-        }]);
-
-
-angular.module('codegoblins.controller')
-  .controller('browse', ['$scope', '$http', '$rootScope', 'Refs', 'Profiles', '$timeout', 'Users', function($scope, $http, $rootScope, Refs, Profiles, $timeout, Users) {
-
-    $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
-    console.log($rootScope.user);
-    Users.findAll().then(function(response) {
-      $scope.users = response.data;
-    }, function(error) {
-      return 'Error Occured';
+    'ui.router',
+    'ngAnimate',
+    'toastr',
+    'lumx',
+    'chart.js',
+    'firebase',
+    'mentio',
+    'ngTagsInput',
+    'angularMoment',
+    'ngMaterial',
+    'ngMessages',
+    'oitozero.ngSweetAlert',
+    'codegoblins.controller',
+    'codegoblins.service',
+    'codegoblins.filter'
+  ])
+  .run(['$rootScope', '$state', 'Refs', '$location', function($rootScope, $state, Refs, $location) {
+    $rootScope._ = window._;
+    //handle page authentication restriction
+    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, error) {
+      var states = (toState.name !== 'about' && toState.name !== 'login' && toState.name !== 'reset-password' && toState.name !== 'error_404' && toState.name !== 'rating');
+      if (!Refs.rootRef.getAuth() && states && !$location.search().token) {
+        event.preventDefault(); 
+        $state.go('error_404');
+      }
     });
+  }])
+  .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
+    $locationProvider.html5Mode(true).hashPrefix('!');
+    $urlRouterProvider.otherwise('/');
 
-}]);
+    $stateProvider
+
+      .state('home', {
+        url: '/',
+        templateUrl: 'views/partials/index.client.view.html'
+      })
+      .state('about', {
+        url: '/about',
+        templateUrl: 'views/partials/about.html'
+      })
+      .state('profile', {
+        controllerProvider: 'HomeCtrl',
+        url: '/profile',
+        templateUrl: 'views/users/profile.client.view.html'
+      })
+      .state('browse', {
+        url: '/browse',
+        templateUrl: 'views/users/browse.client.view.html'
+      })
+      .state('users', {
+        url: '/profile/:id',
+        templateUrl: 'views/users/public_profile.client.view.html',
+        controller: function($scope, $stateParams) {}
+      })
+      .state('questions', {
+        url: '/questions',
+        templateUrl: 'views/questions/questions.client.view.html'
+      })
+      .state('public_questions', {
+        url: '/question/:id',
+        templateUrl: 'views/questions/public_questions.client.view.html',
+        controller: function($scope, $stateParams) {}
+      })
+      .state('newQ', {
+        url: '/new',
+        templateUrl: 'views/questions/question_page.client.view.html',
+        controller: function($scope, $stateParams) {}
+      })
+      .state('error_404', {
+        url: '/error_404',
+        templateUrl: 'views/error.html'
+      });
+  }]);
 
 angular.module('codegoblins.controller')
-  .controller('HomeCtrl', ['$scope', '$location', '$timeout', 'Refs', '$rootScope', function($scope, $location, $timeout, Refs, $rootScope) {
+  .controller('AuthCtrl', ['$scope', '$location', '$timeout', 'Refs', '$rootScope', function($scope, $location, $timeout, Refs, $rootScope) {
     $rootScope.user = Refs.rootRef.getAuth();
     $scope.login = function() {
       Refs.rootRef.authWithOAuthPopup('google', function(error, authData) {
@@ -127,7 +121,20 @@ angular.module('codegoblins.controller')
   }]);
 
 angular.module('codegoblins.controller')
-  .controller('profile', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$modal', '$log', '$mdDialog', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $modal, $log, $mdDialog) {
+  .controller('browse', ['$scope', '$http', '$rootScope', 'Refs', 'Profiles', '$timeout', 'Users', function($scope, $http, $rootScope, Refs, Profiles, $timeout, Users) {
+
+    $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
+    console.log($rootScope.user);
+    Users.findAll().then(function(response) {
+      $scope.users = response.data;
+    }, function(error) {
+      return 'Error Occured';
+    });
+
+}]);
+
+angular.module('codegoblins.controller')
+  .controller('profile', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog) {
 
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
 
@@ -190,7 +197,7 @@ angular.module('codegoblins.controller')
         if (!err) {
           toastr.success('Successfully saved');
           $scope.briefProfile = '';
-          SweetAlert.swal('Data Saved!', 'New Nick-Name: ' + $scope.displayDesc, 'success');
+          SweetAlert.swal('Data Saved!', 'New Pm: ' + $scope.displayDesc, 'success');
         }
       });
     };
@@ -214,8 +221,8 @@ angular.module('codegoblins.controller')
       animation: false
     }
     $scope.data = [
-      [35, 78, 80, 81, 56, 55, 40, 32, 54, 55, 20, 47],
-      [28, 48, 40, 67, 86, 27, 20, 32, 54, 55, 20, 87]
+      [35, 54, 40, 41, 56, 55, 40, 32, 54, 55, 20, 47],
+      [24, 44, 40, 67, 46, 27, 20, 32, 54, 55, 20, 47]
     ];
     $scope.onClick = function(points, evt) {
       console.log(points, evt);
@@ -229,7 +236,7 @@ angular.module('codegoblins.controller')
   }]);
 
 angular.module('codegoblins.controller')
-  .controller('publicProfile', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', '$modal', '$log', '$mdDialog', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, $modal, $log, $mdDialog) {
+  .controller('publicProfile', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', 'Questions', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, $mdDialog, Questions) {
 
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
     var getCareer = (function() {
@@ -253,8 +260,8 @@ angular.module('codegoblins.controller')
         if (data) {
           $timeout(function() {
             $scope.commendsData = data;
-            for(var prop in $scope.commendsData) {
-              if($scope.commendsData[prop].uid == $rootScope.key) {
+            for (var prop in $scope.commendsData) {
+              if ($scope.commendsData[prop].uid == $rootScope.key) {
                 $('#btn-commends').text('You have already commended this person').attr('disabled', true);
               }
             }
@@ -267,23 +274,8 @@ angular.module('codegoblins.controller')
       return 'No data returned';
     });
 
-    var alert;
-    $scope.showAlert = showAlert;
+    var alert, showDialog;
     $scope.showDialog = showDialog;
-
-    function showAlert() {
-      alert = $mdDialog.alert({
-        title: 'Attention',
-        content: 'This is an example of how easy dialogs can be!',
-        ok: 'Close',
-        clickOutsideToClose: true
-      });
-      $mdDialog
-        .show(alert)
-        .finally(function() {
-          alert = undefined;
-        });
-    }
 
     function showDialog($event) {
       var parentEl = angular.element(document.body);
@@ -337,6 +329,73 @@ angular.module('codegoblins.controller')
 
   }]);
 
+angular.module('codegoblins.controller')
+  .controller('public_questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions) {
+
+     Questions.findOne().then(function(response) {
+      console.log(response.data);
+      $scope.questionData = response.data;
+    }, function(err) {
+      console.log('error occured');
+    });
+
+     console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
+}]);
+angular.module('codegoblins.controller')
+  .controller('questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http) {
+    $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
+
+    $(document).ready(function() {
+      $('.load_preloader').hide();
+      $('.plnkr_link').focusout(function() {
+        $scope.plnkr_link = $('.plnkr_link').val();
+
+          if ($scope.plnkr_link && $scope.plnkr_link.substring(0, 4) !== 'http') {
+            $scope.plnkr_link = 'http://' + $scope.plnkr_link;
+          }
+        var plnkr_iframe = '<iframe style="border: 1px solid #999; width: 100%; height: 700px; background-color: #fff;" src="' + $scope.plnkr_link + '" width="320" height="240" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
+        if ($scope.plnkr_link) {
+          $('.plnkr-div').html(plnkr_iframe);
+          $('.load_preloader').hide();
+        };
+      });
+    });
+    
+
+    $scope.submitQuestion = function() {
+      Refs.questionsRef.push({
+        questionTopic: $scope.topic,
+        questionBody: $scope.body,
+        uid: $rootScope.key,
+        plnkr_link: $scope.plnkr_link || 'false',
+        timestamp: new Date().getTime()
+      }, function(err) {
+        if(!err) {
+          console.log('no error for top and body');
+        } else {
+          console.log('error occured for top and body');
+        }
+      });
+      Refs.tagsRef.push($scope.tags, function(err) {
+        if(!err) {
+          console.log('no shits');
+        } else {
+          console.log('shitz');
+        }
+      });
+
+    };
+
+  Refs.questionsRef.orderByChild('uid').equalTo($rootScope.key).once('value', function(snap) {
+    if(snap) {
+      console.log(snap.val());
+    } else {
+      console.log('no data');
+    }
+  });
+
+  }]);
+
 // angular.module('codegoblins.controller')
 //   .controller('usersCtrl', ['$scope', '$http', '$rootScope', 'Refs', 'Profiles', '$timeout', '$stateParams', function($scope, $http, $rootScope, Refs, Profiles, $timeout, $stateParams) {
 
@@ -376,7 +435,7 @@ angular.module('codegoblins.service')
   .factory('Profiles', ['Refs', '$rootScope', '$stateParams', function(Refs, $rootScope, $stateParams) {
     return {
       getProfile: function(userId, cb) {
-        Refs.usersRef.child($rootScope.key).child('profile').once('value', function(snap) {
+        Refs.usersRef.child($rootScope.key).child('profile').on('value', function(snap) {
           if (snap) {
             cb(snap.val());
           } else {
@@ -415,6 +474,32 @@ angular.module('codegoblins.service')
     }
   }]);
 
+angular.module('codegoblins.service')
+  .factory('Questions', ['$http', '$stateParams', function ($http, $stateParams) {
+    // body...
+    return {
+
+      findAll: function(cb) {
+        return $http.get('/all/questions')
+          .success(function(data, status, headers, config){
+            return data;
+          })
+          .error(function(data, status, headers, config) {
+            return data;
+          });
+      },
+
+      findOne: function(cb) {
+        return $http.get('/questions/'+ $stateParams.id)
+          .success(function(data, status, headers, config) {
+            return data;
+          })
+          .error(function(data, status, headers, config) {
+            return data;
+          });
+      }
+    }
+  }])
 var rootRef = new Firebase('https://crackling-fire-1666.firebaseio.com/');
 angular.module('codegoblins.service')
  .factory('Refs', ['$firebase', function($firebase) {
@@ -423,7 +508,9 @@ angular.module('codegoblins.service')
       rootRef: rootRef,
       testUserRef: rootRef.child('testUsers'),
       usersRef: rootRef.child('users'),
-      expertUserRef: rootRef.child('experts')
+      expertUserRef: rootRef.child('experts'),
+      tagsRef: rootRef.child('tags'),
+      questionsRef: rootRef.child('questions')
     };
     
   }])

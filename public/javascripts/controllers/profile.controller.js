@@ -1,5 +1,5 @@
 angular.module('codegoblins.controller')
-  .controller('profile', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$modal', '$log', '$mdDialog', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $modal, $log, $mdDialog) {
+  .controller('profile', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog) {
 
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
 
@@ -62,7 +62,7 @@ angular.module('codegoblins.controller')
         if (!err) {
           toastr.success('Successfully saved');
           $scope.briefProfile = '';
-          SweetAlert.swal('Data Saved!', 'New Nick-Name: ' + $scope.displayDesc, 'success');
+          SweetAlert.swal('Data Saved!', 'New Pm: ' + $scope.displayDesc, 'success');
         }
       });
     };
@@ -86,8 +86,8 @@ angular.module('codegoblins.controller')
       animation: false
     }
     $scope.data = [
-      [35, 78, 80, 81, 56, 55, 40, 32, 54, 55, 20, 47],
-      [28, 48, 40, 67, 86, 27, 20, 32, 54, 55, 20, 87]
+      [35, 54, 40, 41, 56, 55, 40, 32, 54, 55, 20, 47],
+      [24, 44, 40, 67, 46, 27, 20, 32, 54, 55, 20, 47]
     ];
     $scope.onClick = function(points, evt) {
       console.log(points, evt);

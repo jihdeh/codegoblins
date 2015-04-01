@@ -1,0 +1,14 @@
+md-toolbar.md-default-theme {
+  background-color: #F5F5F5 !important;
+  color: #009688 !important;
+}
+tags-input .tags {
+  border: none;
+  border-top: none;
+}
+tags-input .tags .tag-item {
+  background: linear-gradient(to bottom, #f0f9ff 0%, #B6B6B6 47%, #B6B6B6 100%);
+}
+tags-input .tags.focused {
+  box-shadow: none;
+}

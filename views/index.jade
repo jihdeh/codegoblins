@@ -4,7 +4,7 @@ block content
   header
     nav
       .nav-wrapper
-        a.brand-logo.center.logo-col-brand(href='/'){\ CODE GOBLINS /}
+        a.brand-logo.center.logo-col-brand(href='/') {\ CODE GOBLINS /}
         a.button-collapse(href='#', data-activates='mobile-demo')
           i.mdi-navigation-menu
         ul.right.hide-on-med-and-down
@@ -24,19 +24,25 @@ block content
           li
             a.waves-effect.waves-light(href='/browse') Browse
           li
-            a(href='components.html') Components
+            a(href='/questions') Questions
           li
             a(href='javascript.html') Javascript
         ul#mobile-demo.side-nav
+          li(ng-show='user')
+            a.waves-effect.waves-light(ng-click='logout()')
+              i.tiny.mdi.mdi-account-check.right
+              span Logout
+          li(ng-hide='user')
+            a.waves-effect.waves-light(ng-click='login()')
+              i.tiny.mdi.mdi-account-key.right
+              span Login
           li
-            a(href='sass.html') Sass
+            a(href='/questions') Questions
           li
-            a(href='components.html') Components
-          li
-            a(href='javascript.html') Javascript
+            a(href='javascript.html') Browse
           li(ng-show='user')
             a(href='/profile') Profile
-  div(ui-view='')
+  div(ui-view)
 
   footer.page-footer
     .container

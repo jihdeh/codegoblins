@@ -1,5 +1,5 @@
 angular.module('codegoblins.controller')
-  .controller('publicProfile', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', '$modal', '$log', '$mdDialog', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, $modal, $log, $mdDialog) {
+  .controller('publicProfile', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', 'Questions', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, $mdDialog, Questions) {
 
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
     var getCareer = (function() {
@@ -37,23 +37,8 @@ angular.module('codegoblins.controller')
       return 'No data returned';
     });
 
-    var alert;
-    $scope.showAlert = showAlert;
+    var alert, showDialog;
     $scope.showDialog = showDialog;
-
-    function showAlert() {
-      alert = $mdDialog.alert({
-        title: 'Attention',
-        content: 'This is an example of how easy dialogs can be!',
-        ok: 'Close',
-        clickOutsideToClose: true
-      });
-      $mdDialog
-        .show(alert)
-        .finally(function() {
-          alert = undefined;
-        });
-    }
 
     function showDialog($event) {
       var parentEl = angular.element(document.body);

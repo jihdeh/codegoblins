@@ -1,5 +1,5 @@
 angular.module('codegoblins.controller')
-  .controller('HomeCtrl', ['$scope', '$location', '$timeout', 'Refs', '$rootScope', function($scope, $location, $timeout, Refs, $rootScope) {
+  .controller('AuthCtrl', ['$scope', '$location', '$timeout', 'Refs', '$rootScope', function($scope, $location, $timeout, Refs, $rootScope) {
     $rootScope.user = Refs.rootRef.getAuth();
     $scope.login = function() {
       Refs.rootRef.authWithOAuthPopup('google', function(error, authData) {

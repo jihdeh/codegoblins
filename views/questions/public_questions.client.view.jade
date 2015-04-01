@@ -1,0 +1,7 @@
+section(data-ng-controller='public_questions')
+  md-content.md-padding
+  h3
+    | Question: {{questionData.questionTopic}}
+  p
+    | {{questionData.timestamp | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}
+  p(am-time-ago='questionData.timestamp')

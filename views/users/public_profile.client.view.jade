@@ -40,7 +40,7 @@ section(data-ng-controller='publicProfile')
             .list-row__primary
               i.fa.fa-weixin.fa-lg
             .list-row__content
-              span.display-block{{getCommendationLen}} Commendations
+              span.display-block {{getCommendationLen}} Commendations
               span.display-block.fs-body-1.tc-black-2 Nice
     .col.s12.m3.l3
       .social-count-icons
@@ -88,6 +88,7 @@ section(data-ng-controller='publicProfile')
                     | Hello
               .divider.divider--dark
             br
-            md-button#btn-commends.md-raised.md-primary.md-hue-2(ng-click='showDialog($event)')
-              | Add your commendation about this person
+            div
+              md-button#btn-commends.md-raised.md-primary.md-hue-2(ng-click='showDialog($event)')
+                | Add your commendation about this person
             

@@ -1,5 +1,5 @@
 angular.module('codegoblins.service')
-  .factory('Questions', ['$http', '$stateParams', function ($http, $stateParams) {
+  .factory('Questions', ['$http', '$stateParams', 'Refs', function ($http, $stateParams, Refs) {
     // body...
     return {
 
@@ -21,6 +21,16 @@ angular.module('codegoblins.service')
           .error(function(data, status, headers, config) {
             return data;
           });
+      },
+
+      getChildKey: function(cb) {
+        Refs.questionsRef.on('value', function(err) {
+          if(err) {
+            cb(err);
+          } else {
+            cb();
+          }
+        });
       }
     }
-  }])
+  }]);

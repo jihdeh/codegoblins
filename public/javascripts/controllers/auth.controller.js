@@ -24,7 +24,7 @@ angular.module('codegoblins.controller')
       });
 
     };
-
+    
     $scope.logout = function() {
       Refs.rootRef.unauth();
       $rootScope.user = Refs.rootRef.getAuth(); //change user status to logged out

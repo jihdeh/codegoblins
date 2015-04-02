@@ -1,7 +1,14 @@
 section(data-ng-controller='public_questions')
   md-content.md-padding
-  h3
-    | Question: {{questionData.questionTopic}}
-  p
-    | {{questionData.timestamp | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}
-  p(am-time-ago='questionData.timestamp')
+    p.right-align
+      i.mdi-action-alarm.right
+      span {{questionData.timestamp | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}
+    h3.md-headline Question: {{questionData.questionTopic}}
+    .row
+      .container.indigo.lighten-5.z-depth-2.question_overlay
+        .md-body-1.question_body(data-ng-class: "{{'question_body_to_plnkr_margin': questionData.plnkr_link }")
+          {{questionData.questionBody}}
+          div.center.plnkr_container(ng-show='questionData.plnkr_link != "false"')
+            iframe(style="border: 1px solid #999; width: 100%; height: 700px; background-color: #fff;" ng-src="{{questionData.plnkr_link | trusted}}" width="320" height="240" frameborder="0" allowfullscreen="allowfullscreen")
+      .container
+        div#disqus_thread

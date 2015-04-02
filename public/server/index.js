@@ -388,7 +388,12 @@ angular.module('codegoblins.controller')
         if (!err) {
           console.log('no error for top and body');
         } else {
-          swal("OOPS!!", "An error occured, please try later", "error");
+          swal({
+            title: 'OOPS!!',
+            text: 'An error occured, please try later',
+            type: 'error',
+            timer: 3000
+          });
         }
       });
       // save push key
@@ -398,11 +403,16 @@ angular.module('codegoblins.controller')
         if (!err) {
           console.log('No error pushing key');
         } else {
-          swal("OOPS!!", "An error occured, please try later", "error");
+          swal({
+            title: 'OOPS!!',
+            text: 'An error occured, please try later',
+            type: 'error',
+            timer: 3000
+          });
 
         }
       });
-    };
+    }
 
     Refs.questionsRef.orderByChild('uid').equalTo($rootScope.key).once('value', function(snap) {
       if (snap) {
@@ -421,10 +431,13 @@ angular.module('codegoblins.controller')
         });
       });
     }, function(err) {
-      swal("OOPS!!", "An error occured, please try later", "error");
+      swal({
+        title: 'OOPS!!',
+        text: 'An error occured, please try later',
+        type: 'error',
+        timer: 3000
+      });
     });
-
-
 
   }]);
 

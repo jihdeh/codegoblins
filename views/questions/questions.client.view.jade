@@ -1,11 +1,17 @@
-section(data-ng-controller='questions')
-  div(flex-item='6', class='mt++')
-    a(ng-href='/new' ng-if='key')
-      span.fs-title.display-block.mb Post a new question
+section(data-ng-controller='public_questions')
+    .row
+      .col.s12.m6.l6
+        div(flex-item='6', class='mt++')
+          a(ng-href='/new' ng-if='user')
+            h4 Post a new question
+      .input-field.col.s6.right
+        i.mdi-action-search.prefix
+        input#icon_prefix.validate(type='text' ng-model='searchText.$')
+        label(for='icon_prefix') Search
     .divider.divider--dark
     .container.question-list
       ul.list(class='mt++')
-        li.list-row.list-row--multi-line.list-row--has-separator(data-ng-repeat='fetchquestions in getAllQuestions')
+        li.list-row.list-row--multi-line.list-row--has-separator(data-ng-repeat='fetchquestions in getAllQuestions | array | filter:searchText')
           .list-row__primary
             img.img-round(ng-src='{{fetchquestions.avatar || "http://0.gravatar.com/avatar/"}}', width='40', height='40')
           .list-row__content

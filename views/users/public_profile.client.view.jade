@@ -30,7 +30,7 @@ section(data-ng-controller='publicProfile')
             .list-row__content
               span.display-block Professional Career
               span.display-block.fs-body-1.tc-black-2(data-ng-bind='userDetails.profile.career || "No career"')
-    .col.s12.m3.l3
+    .col.s12.m6.l6
       .social-count-icons
         div(flex-item='6')
         span.fs-title.display-block.mb Commendations
@@ -50,21 +50,12 @@ section(data-ng-controller='publicProfile')
         ul.list(class='mt++')
           li.list-row.list-row--multi-line
             .list-row__primary
-              i.fa.fa-heart-o.fa-lg
+              div(data-ng-if='userLikes != key')
+                i.fa.fa-heart-o.fa-lg(data-ng-click='like_counter()')
+              div(data-ng-if='userLikes == key')
+                i.fa.fa-heart-o.fa-lg(data-ng-style="{'color': 'red'}")
             .list-row__content
-              span.display-block 22 Likes
-              span.display-block.fs-body-1.tc-black-2 Nice
-    .col.s12.m3.l3
-      .social-count-icons
-        div(flex-item='6')
-        span.fs-title.display-block.mb Has answered
-        .divider.divider--dark
-        ul.list(class='mt++')
-          li.list-row.list-row--multi-line
-            .list-row__primary
-              i.fa.fa-thumbs-o-up.fa-lg
-            .list-row__content
-              span.display-block 22 Solutions
+              span.display-block {{likes || 0}} Likes
               span.display-block.fs-body-1.tc-black-2 Nice
     .col.s12.m9.l9
       .container

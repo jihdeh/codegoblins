@@ -1,6 +1,10 @@
 nav .nav-wrapper ul li a:active, nav .nav-wrapper ul li a:hover  {
   color: #2196F3 !important;
 }
+nav a:active, nav ul a {
+  color: #fff !important;
+}
+
 div.nav-wrapper {
   background-color: #512DA8 !important;
 }

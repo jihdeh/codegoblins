@@ -1,5 +1,5 @@
 angular.module('codegoblins.controller')
-  .controller('questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions) {
+  .controller('questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location) {
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
 
     $(document).ready(function() {
@@ -57,28 +57,14 @@ angular.module('codegoblins.controller')
       });
     }
 
-    Refs.questionsRef.orderByChild('uid').equalTo($rootScope.key).once('value', function(snap) {
-      if (snap) {
-        console.log(snap.val());
-      } else {
-        console.log('no data');
-      }
-    });
-
-    Questions.findAll().then(function(response) {
-      $scope.getAllQuestions = response.data;
-      angular.forEach(response.data, function(value, key) {
-        console.log(key, value.tags);
-        angular.forEach(value.tags, function(val, key) {
-          $scope.the_tags = val;
-        });
-      });
-    }, function(err) {
-      swal({
-        title: 'OOPS!!',
-        text: 'An error occured, please try later',
-        type: 'error'
-      });
-    });
+    // Refs.questionsRef.orderByChild('uid').equalTo($rootScope.key).once('value', function(snap) {
+    //   if (snap) {
+    //     console.log(snap.val());
+    //   } else {
+    //     console.log('no data');
+    //   }
+    // });
+    
+    
 
   }]);

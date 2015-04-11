@@ -22,5 +22,4 @@ router.get('/users/:id', users.getOneUser);
 router.get('/all/questions', users.getQuestions);
 router.get('/questions/:id', users.getOneQuestion);
 
-
 module.exports = router;

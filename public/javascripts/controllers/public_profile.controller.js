@@ -90,4 +90,27 @@ angular.module('codegoblins.controller')
       }
     };
 
+    Profiles.getBrowsedUser($stateParams.id, function(data) {
+      if (data) {
+        _.forEach(data, function(val, key) {
+          $scope.userLikes = val.uid;
+          $scope.likes = _.toArray(data).length;
+        });
+      } else {
+        toastr.error('Could not fetch likes');
+      }
+    });
+
+    $scope.like_counter = function() {
+      Profiles.updateLikes({
+        uid: $rootScope.key
+      }, function(err) {
+        if (!err) {
+          toastr.success('Successfully Liked');
+        } else {
+          toastr.error('An error occured sorry');
+        }
+      });
+    };
+
   }]);

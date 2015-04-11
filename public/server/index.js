@@ -28,10 +28,11 @@ angular.module('CodeGoblins', [
     $rootScope._ = window._;
     //handle page authentication restriction
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, error) {
-      var states = (toState.name !== 'about' && toState.name !== 'login' && toState.name !== 'reset-password' && toState.name !== 'error_404' && toState.name !== 'rating');
+      var states = (toState.name !== 'about' && toState.name !== 'login' && toState.name !== 'public_questions' && toState.name !== 'questions' && toState.name !== 'error_404' && toState.name !== 'home');
       if (!Refs.rootRef.getAuth() && states && !$location.search().token) {
         event.preventDefault(); 
         $state.go('error_404');
+        console.log(toState.name);
       }
     });
   }])
@@ -327,10 +328,33 @@ angular.module('codegoblins.controller')
       }
     };
 
+    Profiles.getBrowsedUser($stateParams.id, function(data) {
+      if (data) {
+        _.forEach(data, function(val, key) {
+          $scope.userLikes = val.uid;
+          $scope.likes = _.toArray(data).length;
+        });
+      } else {
+        toastr.error('Could not fetch likes');
+      }
+    });
+
+    $scope.like_counter = function() {
+      Profiles.updateLikes({
+        uid: $rootScope.key
+      }, function(err) {
+        if (!err) {
+          toastr.success('Successfully Liked');
+        } else {
+          toastr.error('An error occured sorry');
+        }
+      });
+    };
+
   }]);
 
 angular.module('codegoblins.controller')
-  .controller('public_questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions) {
+  .controller('public_questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location) {
 
     Questions.findOne().then(function(response) {
       $scope.questionData = response.data;
@@ -338,6 +362,22 @@ angular.module('codegoblins.controller')
       console.log('error occured');
     }); 
 
+    $location.search('search', ['erre','uwww']);
+
+    Questions.findAll().then(function(response) {
+      $scope.getAllQuestions = response.data;
+      angular.forEach(response.data, function(value, key) {
+        angular.forEach(value.tags, function(val, key) {
+          $scope.the_tags = val;
+        });
+      });
+    }, function(err) {
+      swal({
+        title: 'OOPS!!',
+        text: 'An error occured, please try later',
+        type: 'error'
+      });
+    });
 
     /* * * DISQUS CONFIGURATION VARIABLES * * */
     var disqus_shortname = 'codegoblins';
@@ -354,7 +394,7 @@ angular.module('codegoblins.controller')
   }]);
 
 angular.module('codegoblins.controller')
-  .controller('questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions) {
+  .controller('questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location) {
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
 
     $(document).ready(function() {
@@ -391,8 +431,7 @@ angular.module('codegoblins.controller')
           swal({
             title: 'OOPS!!',
             text: 'An error occured, please try later',
-            type: 'error',
-            timer: 3000
+            type: 'error'
           });
         }
       });
@@ -406,38 +445,22 @@ angular.module('codegoblins.controller')
           swal({
             title: 'OOPS!!',
             text: 'An error occured, please try later',
-            type: 'error',
-            timer: 3000
+            type: 'error'
           });
 
         }
       });
     }
 
-    Refs.questionsRef.orderByChild('uid').equalTo($rootScope.key).once('value', function(snap) {
-      if (snap) {
-        console.log(snap.val());
-      } else {
-        console.log('no data');
-      }
-    });
-
-    Questions.findAll().then(function(response) {
-      $scope.getAllQuestions = response.data;
-      angular.forEach(response.data, function(value, key) {
-        console.log(key, value.tags);
-        angular.forEach(value.tags, function(val, key) {
-          $scope.the_tags = val;
-        });
-      });
-    }, function(err) {
-      swal({
-        title: 'OOPS!!',
-        text: 'An error occured, please try later',
-        type: 'error',
-        timer: 3000
-      });
-    });
+    // Refs.questionsRef.orderByChild('uid').equalTo($rootScope.key).once('value', function(snap) {
+    //   if (snap) {
+    //     console.log(snap.val());
+    //   } else {
+    //     console.log('no data');
+    //   }
+    // });
+    
+    
 
   }]);
 
@@ -485,46 +508,64 @@ angular.module('codegoblins.filter')
 
 angular.module('codegoblins.service')
   .factory('Profiles', ['Refs', '$rootScope', '$stateParams', function(Refs, $rootScope, $stateParams) {
-    return {
-      getProfile: function(userId, cb) {
-        Refs.usersRef.child($rootScope.key).child('profile').on('value', function(snap) {
-          if (snap) {
-            cb(snap.val());
-          } else {
-            cb();
-          }
+      return {
+        getProfile: function(userId, cb) {
+          Refs.usersRef.child($rootScope.key).child('profile').on('value', function(snap) {
+            if (snap) {
+              cb(snap.val());
+            } else {
+              cb();
+            }
 
-        });
-      },
-      updateProfile: function(userStats, cb) {
-        Refs.usersRef.child($rootScope.key).child('profile').update(userStats, function(error) {
-          if (error) {
-            cb(error)
-          } else {
-            cb();
+          });
+        },
+        updateProfile: function(userStats, cb) {
+          Refs.usersRef.child($rootScope.key).child('profile').update(userStats, function(error) {
+            if (error) {
+              cb(error)
+            } else {
+              cb();
+            }
+          });
+        },
+        updateCommendation: function(commendations, cb) {
+          Refs.usersRef.child($stateParams.id).child('commendations').child($rootScope.key).update(commendations, function(error) {
+            if (error) {
+              cb(error)
+            } else {
+              cb();
+            }
+          });
+        },
+        getCommendationData: function(getCommends, cb) {
+          Refs.usersRef.child($stateParams.id).child('commendations').on('value', function(snap) {
+            if (snap) {
+              cb(snap.val());
+            } else {
+              cb();
+            }
+          });
+        },
+        updateLikes: function(getCounts, cb) {
+          Refs.usersRef.child($stateParams.id).child('profile').child('likes').push(getCounts, function(error) {
+            if (error) {
+              cb(error);
+            } else {
+              cb();
+            }
+          });
+        },
+        getBrowsedUser: function(getBrowse, cb) {
+          Refs.usersRef.child($stateParams.id).child('profile').child('likes').on('value', function(snap) {
+              if (snap) {
+                cb(snap.val());
+              } else {
+                cb();
+              }
+            });
           }
-        });
-      },
-      updateCommendation: function(commendations, cb) {
-        Refs.usersRef.child($stateParams.id).child('commendations').child($rootScope.key).update(commendations, function(error) {
-          if (error) {
-            cb(error)
-          } else {
-            cb();
-          }
-        });
-      },
-      getCommendationData: function(getCommends, cb) {
-        Refs.usersRef.child($stateParams.id).child('commendations').on('value', function(snap) {
-          if (snap) {
-            cb(snap.val());
-          } else {
-            cb();
-          }
-        });
-      }
-    }
-  }]);
+        }
+      }]);
 
 angular.module('codegoblins.service')
   .factory('Questions', ['$http', '$stateParams', 'Refs', function ($http, $stateParams, Refs) {

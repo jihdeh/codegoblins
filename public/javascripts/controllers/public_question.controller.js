@@ -1,5 +1,5 @@
 angular.module('codegoblins.controller')
-  .controller('public_questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions) {
+  .controller('public_questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location) {
 
     Questions.findOne().then(function(response) {
       $scope.questionData = response.data;
@@ -7,6 +7,22 @@ angular.module('codegoblins.controller')
       console.log('error occured');
     }); 
 
+    $location.search('search', ['erre','uwww']);
+
+    Questions.findAll().then(function(response) {
+      $scope.getAllQuestions = response.data;
+      angular.forEach(response.data, function(value, key) {
+        angular.forEach(value.tags, function(val, key) {
+          $scope.the_tags = val;
+        });
+      });
+    }, function(err) {
+      swal({
+        title: 'OOPS!!',
+        text: 'An error occured, please try later',
+        type: 'error'
+      });
+    });
 
     /* * * DISQUS CONFIGURATION VARIABLES * * */
     var disqus_shortname = 'codegoblins';

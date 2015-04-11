@@ -23,10 +23,11 @@ angular.module('CodeGoblins', [
     $rootScope._ = window._;
     //handle page authentication restriction
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, error) {
-      var states = (toState.name !== 'about' && toState.name !== 'login' && toState.name !== 'reset-password' && toState.name !== 'error_404' && toState.name !== 'rating');
+      var states = (toState.name !== 'about' && toState.name !== 'login' && toState.name !== 'public_questions' && toState.name !== 'questions' && toState.name !== 'error_404' && toState.name !== 'home');
       if (!Refs.rootRef.getAuth() && states && !$location.search().token) {
         event.preventDefault(); 
         $state.go('error_404');
+        console.log(toState.name);
       }
     });
   }])

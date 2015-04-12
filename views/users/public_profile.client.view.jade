@@ -65,16 +65,16 @@ section(data-ng-controller='publicProfile')
         .divider.divider--dark
         md-content
           md-list
-            md-item(ng-repeat='item in commendsData')
+            md-item(dir-paginate='info in commendsData | array | itemsPerPage: pageSize' current-page='currentPage')
               md-item-content
                 .md-tile-left
-                  img.face(ng-src='{{item.avatar || "http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=500"}}', alt='{{userDetails.profile.nickname}}')
+                  img.face(ng-src='{{info.avatar || "http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=500"}}', alt='{{userDetails.profile.nickname}}')
                 .md-tile-content
-                  h3.commendation-title {{item.topic}}
-                  a(ng-href='/profile/{{item.uid}}')
-                    h4.commendation-user(data-ng-bind='item.nickname')
+                  h3.commendation-title {{info.topic}}
+                  a(ng-href='/profile/{{info.uid}}')
+                    h4.commendation-user(data-ng-bind='info.nickname')
                   p.commendation-note
-                    | {{item.commends}}
+                    | {{info.commends}}
                 p.right-align 
                     | Hello
               .divider.divider--dark
@@ -82,4 +82,4 @@ section(data-ng-controller='publicProfile')
             div
               md-button#btn-commends.md-raised.md-primary.md-hue-2(ng-click='showDialog($event)')
                 | Add your commendation about this person
-            
+          dir-pagination-controls(boundary-links='true' on-page-change='pageChangeHandler(newPageNumber)' template-url='/lib/angular-utils-pagination/dirPagination.tpl.html')

@@ -19,6 +19,7 @@ angular.module('CodeGoblins', [
     'angularMoment',
     'ngMaterial',
     'ngMessages',
+    'angularUtils.directives.dirPagination',
     'oitozero.ngSweetAlert',
     'codegoblins.controller',
     'codegoblins.service',
@@ -28,7 +29,7 @@ angular.module('CodeGoblins', [
     $rootScope._ = window._;
     //handle page authentication restriction
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, error) {
-      var states = (toState.name !== 'about' && toState.name !== 'login' && toState.name !== 'public_questions' && toState.name !== 'questions' && toState.name !== 'error_404' && toState.name !== 'home');
+      var states = (toState.name !== 'about' && toState.name !== 'login' && toState.name !== 'questions' && toState.name !== 'public_questions' && toState.name !== 'error_404' && toState.name !== 'home');
       if (!Refs.rootRef.getAuth() && states && !$location.search().token) {
         event.preventDefault(); 
         $state.go('error_404');
@@ -239,6 +240,9 @@ angular.module('codegoblins.controller')
 angular.module('codegoblins.controller')
   .controller('publicProfile', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', 'Questions', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, $mdDialog, Questions) {
 
+    $scope.currentPage = 1;
+    $scope.pageSize = 2;
+
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
     var getCareer = (function() {
       Profiles.getProfile($rootScope.key, function(data) {
@@ -356,13 +360,16 @@ angular.module('codegoblins.controller')
 angular.module('codegoblins.controller')
   .controller('public_questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location) {
 
+    $scope.currentPage = 1;
+    $scope.pageSize = 10;
+
     Questions.findOne().then(function(response) {
       $scope.questionData = response.data;
     }, function(err) {
       console.log('error occured');
-    }); 
+    });
 
-    $location.search('search', ['erre','uwww']);
+    $location.search('search', ['erre', 'uwww']);
 
     Questions.findAll().then(function(response) {
       $scope.getAllQuestions = response.data;

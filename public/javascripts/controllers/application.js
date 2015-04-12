@@ -14,6 +14,7 @@ angular.module('CodeGoblins', [
     'angularMoment',
     'ngMaterial',
     'ngMessages',
+    'angularUtils.directives.dirPagination',
     'oitozero.ngSweetAlert',
     'codegoblins.controller',
     'codegoblins.service',
@@ -23,7 +24,7 @@ angular.module('CodeGoblins', [
     $rootScope._ = window._;
     //handle page authentication restriction
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, error) {
-      var states = (toState.name !== 'about' && toState.name !== 'login' && toState.name !== 'public_questions' && toState.name !== 'questions' && toState.name !== 'error_404' && toState.name !== 'home');
+      var states = (toState.name !== 'about' && toState.name !== 'login' && toState.name !== 'questions' && toState.name !== 'public_questions' && toState.name !== 'error_404' && toState.name !== 'home');
       if (!Refs.rootRef.getAuth() && states && !$location.search().token) {
         event.preventDefault(); 
         $state.go('error_404');

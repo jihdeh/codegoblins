@@ -241,7 +241,7 @@ angular.module('codegoblins.controller')
   .controller('publicProfile', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', 'Questions', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, $mdDialog, Questions) {
 
     $scope.currentPage = 1;
-    $scope.pageSize = 2;
+    $scope.pageSize = 1;
 
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
     var getCareer = (function() {

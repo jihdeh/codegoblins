@@ -11,7 +11,7 @@ section(data-ng-controller='public_questions')
     .divider.divider--dark
     .container.question-list
       ul.list(class='mt++')
-        li.list-row.list-row--multi-line.list-row--has-separator(data-ng-repeat='fetchquestions in getAllQuestions | array | filter:searchText')
+        li.list-row.list-row--multi-line.list-row--has-separator(dir-paginate='fetchquestions in getAllQuestions | array | filter:searchText | itemsPerPage: pageSize'  current-page='currentPage')
           .list-row__primary
             img.img-round(ng-src='{{fetchquestions.avatar || "http://0.gravatar.com/avatar/"}}', width='40', height='40')
           .list-row__content
@@ -24,3 +24,9 @@ section(data-ng-controller='public_questions')
                   span.new.badge(data-ng-bind='tags.lang')
           .list-row__secondary
             i.icon.icon--xs.icon--grey.icon--flat.mdi.mdi-information
+      dir-pagination-controls(boundary-links='true' on-page-change='pageChangeHandler(newPageNumber)' template-url='/lib/angular-utils-pagination/dirPagination.tpl.html')
+
+
+
+
+

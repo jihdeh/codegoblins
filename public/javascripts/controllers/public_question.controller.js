@@ -1,13 +1,16 @@
 angular.module('codegoblins.controller')
   .controller('public_questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location) {
 
+    $scope.currentPage = 1;
+    $scope.pageSize = 10;
+
     Questions.findOne().then(function(response) {
       $scope.questionData = response.data;
     }, function(err) {
       console.log('error occured');
-    }); 
+    });
 
-    $location.search('search', ['erre','uwww']);
+    $location.search('search', ['erre', 'uwww']);
 
     Questions.findAll().then(function(response) {
       $scope.getAllQuestions = response.data;

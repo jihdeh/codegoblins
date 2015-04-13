@@ -7,7 +7,7 @@ section(data-ng-controller='questions')
       form(name='question')
         md-input-container
           label Topic
-          input(required='', name='topics', ng-model='topic', minlength='10', md-maxlength='50')
+          input(required='', name='topics', ng-model='topic', minlength='10', md-maxlength='100')
           div(ng-messages='question.topics.$error')
             div(ng-message='required') This is required.
             div(ng-message='minlength') The topic has to be more than 10 characters long.

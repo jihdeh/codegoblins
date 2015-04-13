@@ -51,9 +51,9 @@ section(data-ng-controller='publicProfile')
           li.list-row.list-row--multi-line
             .list-row__primary
               div(data-ng-if='userLikes != key')
-                i.fa.fa-heart-o.fa-lg(data-ng-click='like_counter()')
+                i.fa.fa-heart-o.fa-lg.md-icon-button.md-accent(data-ng-click='like_counter()')
               div(data-ng-if='userLikes == key')
-                i.fa.fa-heart-o.fa-lg(data-ng-style="{'color': 'red'}")
+                i.fa.fa-heart-o.fa-lg.md-icon-button.md-accent(data-ng-style="{'color': 'red'}")
             .list-row__content
               span.display-block {{likes || 0}} Likes
               span.display-block.fs-body-1.tc-black-2 Nice

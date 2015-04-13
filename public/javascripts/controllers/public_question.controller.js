@@ -10,7 +10,7 @@ angular.module('codegoblins.controller')
       console.log('error occured');
     });
 
-    $location.search('search', ['erre', 'uwww']);
+    // $location.search('search', ['erre', 'uwww']);
 
     Questions.findAll().then(function(response) {
       $scope.getAllQuestions = response.data;

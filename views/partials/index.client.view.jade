@@ -1,13 +1,13 @@
 main
   section
-    img.main-header-container.responsive-img(src='/images/code-wallpaper-2.jpg')
+    img.main-header-container.responsive-img(src='/images/bg-wall.png')
     .row.center.home-info
       .col.s12.m4.l4
         .center.promo
           i.large.mdi-action-stars.home-icons
           p.promo-caption Speeds up development
           p.light.center
-            | We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.
+            | One beautiful feature is an option to ask questions related to issues you may be facing, and there are tons of other developers out there willing to assist you with the problems and you also help other who encounter same.
       .col.s12.m4.l4
         .center.promo
           i.large.mdi-action-find-replace.home-icons
@@ -19,12 +19,35 @@ main
           i.large.mdi-action-group-work.home-icons
           p.promo-caption Connect with other developers
           p.light.center
-            | We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.
-    .container
-      .progress
-        .indeterminate
-      .row.center
-        .col.s12.m6.l6
-          h2 Hello World
-        .col.s12.m6.l6
-          h2 Hello World
+            | Now most times you may not have people around to perform UAT for your new project, but we have helped create a platform where you can add your projects and developers or regular people would constructively criticism or praise your project.
+    hr
+    .clear-space
+    .row.center(data-ng-controller='MainCtrl')
+      .col.s12.m2.l2
+        div(ng-controller='MainCtrl', layout='column', flex='', layout-fill='')
+          md-content(style='height: 300px;')
+            section
+              md-subheader.md-primary Code Goblins Tags
+              md-list(layout-padding='')
+                md-list-item.md-3-line(ng-repeat='tag in sortTags')
+                  img.md-avatar(ng-src='/images/lightening-bolt.png', style='display: inline' alt='')
+                  .md-list-item-text
+                    a.collection-item(href='#!')
+                      span {{tag}}
+      .col.s12.m8.l8
+        .container
+          | Latest Questions
+          ul.list(class='mt++')
+          li.list-row.list-row--multi-line.list-row--has-separator(ng-repeat='fetchquestions in getAllQuestions | array | limitTo: 2')
+            .list-row__primary
+              img.img-round(ng-src='{{fetchquestions.avatar || "http://0.gravatar.com/avatar/"}}', width='40', height='40')
+            .list-row__content
+              a(ng-href='/question/{{fetchquestions.push_key}}')
+                span.list-text.display-block(data-ng-bind='fetchquestions.questionTopic')
+              span.list-text.display-block.fs-body-1.tc-black-2.truncate(data-ng-bind='fetchquestions.questionBody')
+              span.display-block.fs-body-1.tc-black-2.tag-time-line
+                div.time_col(am-time-ago='{{fetchquestions.timestamp}}')
+                a.collection-item(href='#!', data-ng-repeat='tags in fetchquestions.tags')
+                    span.new.badge(data-ng-bind='tags.lang')
+            .list-row__secondary
+              i.icon.icon--xs.icon--grey.icon--flat.mdi.mdi-information(alt='not answered', title='not answered' aria-label="Not Answered")

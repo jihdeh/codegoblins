@@ -1,3 +1,6 @@
+a.brand-logo:hover, a.brand-logo:visited, a.brand-logo:active {
+  text-decoration: none;
+}
 nav .nav-wrapper ul li a:active, nav .nav-wrapper ul li a:hover  {
   color: #2196F3 !important;
 }
@@ -20,4 +23,80 @@ div.nav-wrapper {
 }
 .notify-red {
   color: red;
+}
+.clear-space {
+  margin-bottom: 50px;
+}
+/*
+ * This styling is for the flashing caret.
+ *Terminal Type
+ */
+
+.dirTerminalType-caret {
+  display: inline-block;
+  width: 3px;
+  margin-bottom: -2px;
+  margin-left: 3px;
+  margin-right: -4px;
+  height: 16px;
+  -webkit-animation: dirTerminalType-blink 0.8s infinite;
+     -moz-animation: dirTerminalType-blink 0.8s infinite;
+       -o-animation: dirTerminalType-blink 0.8s infinite;
+          animation: dirTerminalType-blink 0.8s infinite;
+}
+@-webkit-keyframes dirTerminalType-blink {
+  0% {
+    opacity: 0;
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes dirTerminalType-blink {
+  0% {
+    opacity: 0;
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes dirTerminalType-blink {
+  0% {
+    opacity: 0;
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes dirTerminalType-blink {
+  0% {
+    opacity: 0;
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
 }

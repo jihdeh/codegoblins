@@ -20,6 +20,7 @@ angular.module('CodeGoblins', [
     'ngMaterial',
     'ngMessages',
     'angularUtils.directives.dirPagination',
+    'angularUtils.directives.dirTerminalType',
     'oitozero.ngSweetAlert',
     'codegoblins.controller',
     'codegoblins.service',
@@ -33,7 +34,6 @@ angular.module('CodeGoblins', [
       if (!Refs.rootRef.getAuth() && states && !$location.search().token) {
         event.preventDefault(); 
         $state.go('error_404');
-        console.log(toState.name);
       }
     });
   }])
@@ -135,6 +135,27 @@ angular.module('codegoblins.controller')
 
 }]);
 
+angular.module('codegoblins.controller')
+  .controller('MainCtrl', ['$scope', 'Refs', 'Questions', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', function($scope, Refs, Questions, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog) {
+    var tagArray = [];
+
+    Questions.findAll().then(function(response) {
+      $scope.getAllQuestions = response.data;
+      angular.forEach(response.data, function(value, key) {
+        angular.forEach(value.tags, function(val, key) {
+          tagArray.push(val.lang);
+          $scope.sortTags = _.union(tagArray);
+        });
+      });
+    }, function(err) {
+      swal({
+        title: 'OOPS!!',
+        text: 'An error occured, please try later',
+        type: 'error'
+      });
+    });
+
+}]);
 angular.module('codegoblins.controller')
   .controller('profile', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog) {
 
@@ -241,7 +262,7 @@ angular.module('codegoblins.controller')
   .controller('publicProfile', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', 'Questions', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, $mdDialog, Questions) {
 
     $scope.currentPage = 1;
-    $scope.pageSize = 1;
+    $scope.pageSize = 2;
 
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
     var getCareer = (function() {
@@ -339,7 +360,7 @@ angular.module('codegoblins.controller')
           $scope.likes = _.toArray(data).length;
         });
       } else {
-        toastr.error('Could not fetch likes');
+        toastr.error('No likes for this person');
       }
     });
 
@@ -369,7 +390,7 @@ angular.module('codegoblins.controller')
       console.log('error occured');
     });
 
-    $location.search('search', ['erre', 'uwww']);
+    // $location.search('search', ['erre', 'uwww']);
 
     Questions.findAll().then(function(response) {
       $scope.getAllQuestions = response.data;

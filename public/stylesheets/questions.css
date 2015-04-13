@@ -56,3 +56,14 @@ span.badge.new {
 .plnkr_container {
   margin-top: 50px;
 }
+.icon.icon--xs.icon--grey.icon--flat.mdi-action-spellcheck {
+  color: #8BC34A !important;
+}
+.spike-green-answer {
+  color: #8BC34A;
+  font-size: 25px;
+}
+.spike-red-answer {
+  color: red;
+  font-size: 25px;
+}

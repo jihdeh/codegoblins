@@ -38,7 +38,7 @@ main
         .container
           | Latest Questions
           ul.list(class='mt++')
-          li.list-row.list-row--multi-line.list-row--has-separator(ng-repeat='fetchquestions in getAllQuestions | array | limitTo: 2')
+          li.list-row.list-row--multi-line.list-row--has-separator(ng-repeat='fetchquestions in getAllQuestions | array | orderBy:"-timestamp" | limitTo: 2')
             .list-row__primary
               img.img-round(ng-src='{{fetchquestions.avatar || "http://0.gravatar.com/avatar/"}}', width='40', height='40')
             .list-row__content

@@ -1,16 +1,53 @@
 angular.module('codegoblins.controller')
-  .controller('public_questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location) {
+  .controller('public_questions', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, Questions, $location) {
 
     $scope.currentPage = 1;
     $scope.pageSize = 10;
 
     Questions.findOne().then(function(response) {
       $scope.questionData = response.data;
+      if ($stateParams.id) {
+        $scope.data = {
+          cb: $scope.questionData.answered
+        };
+      }
     }, function(err) {
       console.log('error occured');
     });
 
     // $location.search('search', ['erre', 'uwww']);
+
+    $scope.markAnswer = function() {
+      if ($scope.data.cb) {
+        Refs.questionsRef.child($stateParams.id).update({
+          answered: $scope.data.cb
+        }, function(err) {
+          if (!err) {
+            swal({
+              title: 'Bumaya!!',
+              text: 'Question has been marked as answered',
+              type: 'success'
+            });
+          } else {
+            toastr.error('Error occured sending data, please try again');
+          }
+        });
+      } else {
+        Refs.questionsRef.child($stateParams.id).update({
+          answered: false
+        }, function(err) {
+          if (!err) {
+            swal({
+              title: 'Uhmm!!',
+              text: 'Question has been marked as unaswered',
+              type: 'error'
+            });
+          } else {
+            toastr.error('Error occured sending data, please try again');
+          }
+        });
+      }
+    };
 
     Questions.findAll().then(function(response) {
       $scope.getAllQuestions = response.data;

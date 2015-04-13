@@ -4,14 +4,12 @@ block content
   header
     nav
       .nav-wrapper
-        a.brand-logo.center.logo-col-brand(href='/') {\ CODE GOBLINS /}
+        a.brand-logo.center.logo-col-brand(href='/' dir-terminal-type="" duration='5000' remove-caret='5000') {\ CODE GOBLINS /}
         a.button-collapse(href='#', data-activates='mobile-demo')
           i.mdi-navigation-menu
         ul.right.hide-on-med-and-down
           li(ng-show='user')
-            a(href='/profile') Profile
-          li
-            a(href='javascript.html') Javascript
+            a.waves-effect.waves-light(href='/profile') Profile
           li(ng-show='user')
             a.waves-effect.waves-light(ng-click='logout()')
               i.tiny.mdi.mdi-account-check.right
@@ -24,9 +22,9 @@ block content
           li
             a.waves-effect.waves-light(href='/browse') Browse
           li
-            a(href='/questions') Questions
+            a.waves-effect.waves-light(href='/questions') Questions
           li
-            a(href='javascript.html') Javascript
+            a.waves-effect.waves-light(href='/review') Project Review
         ul#mobile-demo.side-nav
           li(ng-show='user')
             a.waves-effect.waves-light(ng-click='logout()')
@@ -48,20 +46,12 @@ block content
     .container
       .row
         .col.l6.s12
-          h5.white-text Footer Content
-          p.grey-text.text-lighten-4 You can use rows and columns here to organize your footer content.
+          h5.white-text Code Goblins
+          p.grey-text.text-lighten-4 Ask your code related questions, submit your projects for review.
         .col.l4.offset-l2.s12
-          h5.white-text Links
-          ul
-            li
-              a.grey-text.text-lighten-3(href='#!') Link 1
-            li
-              a.grey-text.text-lighten-3(href='#!') Link 2
-            li
-              a.grey-text.text-lighten-3(href='#!') Link 3
-            li
-              a.grey-text.text-lighten-3(href='#!') Link 4
+          h5.white-text Hack it, Break it, Fix it.
+          img(src='/images/goblin-work.png')
     .footer-copyright
       .container
-        | © 2014 Copyright Text
-        a.grey-text.text-lighten-4.right(href='#!') More Links
+        | © 2015 Copyright With Love By Stephens.
+        a.grey-text.text-lighten-4.right(href='andela.co') Andela

@@ -100,7 +100,7 @@ angular.module('codegoblins.controller')
           $scope.likes = _.toArray(data).length;
         });
       } else {
-        toastr.error('Could not fetch likes');
+        toastr.error('No likes for this person');
       }
     });
 

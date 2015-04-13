@@ -42,6 +42,7 @@ span.badge.new:after {
 
 span.badge.new {
   margin-left: 2px !important;
+  /*margin-bottom: 2px;*/
 }
 
 .question_body {

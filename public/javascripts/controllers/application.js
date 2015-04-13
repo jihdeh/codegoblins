@@ -15,6 +15,7 @@ angular.module('CodeGoblins', [
     'ngMaterial',
     'ngMessages',
     'angularUtils.directives.dirPagination',
+    'angularUtils.directives.dirTerminalType',
     'oitozero.ngSweetAlert',
     'codegoblins.controller',
     'codegoblins.service',
@@ -28,7 +29,6 @@ angular.module('CodeGoblins', [
       if (!Refs.rootRef.getAuth() && states && !$location.search().token) {
         event.preventDefault(); 
         $state.go('error_404');
-        console.log(toState.name);
       }
     });
   }])

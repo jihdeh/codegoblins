@@ -28,7 +28,8 @@ angular.module('codegoblins.controller')
         plnkr_link: $scope.plnkr_link || 'false',
         avatar: $rootScope.user.google.cachedUserProfile.picture,
         timestamp: new Date().getTime(),
-        tags: $scope.tags
+        tags: $scope.tags,
+        answered: false
       }, function(err) {
         if (!err) {
           console.log('no error for top and body');

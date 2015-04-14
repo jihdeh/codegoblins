@@ -7,18 +7,18 @@ section(data-ng-controller='questions')
       form(name='question')
         md-input-container
           label Topic
-          input(required='', name='topics', ng-model='topic', minlength='10', md-maxlength='100')
+          input(required='', name='topics', ng-model='topic', minlength='10', md-maxlength='200')
           div(ng-messages='question.topics.$error')
             div(ng-message='required') This is required.
             div(ng-message='minlength') The topic has to be more than 10 characters long.
-            div(ng-message='md-maxlength') The topic has to be less than 40 characters long.
+            div(ng-message='md-maxlength') The topic has to be less than 200 characters long.
         md-input-container(flex='')
           label Body
-          textarea(name='body', required='' ng-model='body', columns='1', minlength='10', placeholder='Your comments if you will recommend this developer of not?', md-maxlength='400')
+          textarea(name='body', required='' ng-model='body', columns='1', minlength='10', placeholder='Your comments if you will recommend this developer of not?', md-maxlength='1000')
           div(ng-messages='question.body.$error')
             div(ng-message='required') This is required.
-            div(ng-message='minlength') The body has to be more than 100 characters long.
-            div(ng-message='md-maxlength') The body has to be less than 100 characters long.
+            div(ng-message='minlength') The body has to be more than 10 characters long.
+            div(ng-message='md-maxlength') The body has to be less than 1000 characters long.
         md-input-container
           h3
             | Enter 

@@ -459,7 +459,7 @@ angular.module('codegoblins.controller')
   }]);
 
 angular.module('codegoblins.controller')
-  .controller('questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location) {
+  .controller('questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', '$window', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location, $window) {
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
 
     $(document).ready(function() {
@@ -492,7 +492,7 @@ angular.module('codegoblins.controller')
         answered: false
       }, function(err) {
         if (!err) {
-          console.log('no error for top and body');
+
         } else {
           swal({
             title: 'OOPS!!',
@@ -506,17 +506,28 @@ angular.module('codegoblins.controller')
         push_key: $scope.push_key.key()
       }, function(err) {
         if (!err) {
-          console.log('No error pushing key');
+          swal({
+              title: 'Cool!!',
+              text: 'Question has been created',
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Yes, create it!",
+              closeOnConfirm: false
+            },
+
+            function() {
+              $window.location = '/question/' + $scope.push_key.key();
+            });
         } else {
           swal({
             title: 'OOPS!!',
             text: 'An error occured, please try later',
             type: 'error'
           });
-
         }
       });
-    }
+    };
 
     // Refs.questionsRef.orderByChild('uid').equalTo($rootScope.key).once('value', function(snap) {
     //   if (snap) {
@@ -525,8 +536,8 @@ angular.module('codegoblins.controller')
     //     console.log('no data');
     //   }
     // });
-    
-    
+
+
 
   }]);
 

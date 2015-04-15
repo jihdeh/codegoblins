@@ -17,5 +17,5 @@ angular.module('codegoblins.controller')
         type: 'error'
       });
     });
-
+        
 }]);

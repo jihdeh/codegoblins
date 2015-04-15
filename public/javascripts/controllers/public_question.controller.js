@@ -50,7 +50,9 @@ angular.module('codegoblins.controller')
     };
 
     Questions.findAll().then(function(response) {
+      $('.showOnload').show();
       $scope.getAllQuestions = response.data;
+      $('.showOnload').hide();
       angular.forEach(response.data, function(value, key) {
         angular.forEach(value.tags, function(val, key) {
           $scope.the_tags = val;

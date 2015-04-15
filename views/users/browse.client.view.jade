@@ -5,6 +5,10 @@ section(data-ng-controller='browse')
 			input#icon_prefix.validate(type='text' ng-model='searchText.$')
 			label(for='icon_prefix') Search for People
 	.row
+		.preloader-wrapper.big.active.showOnload
+			.spinner-layer.spinner-blue-only
+				.circle-clipper.right
+					.circle
 		.col.s6.m3.l3(data-ng-repeat='user in users | array | filter:searchText')
 			.center.promo.browse-col.z-depth-1(data-ng-if='user.uid !== key')
 				.browse-inner-grid

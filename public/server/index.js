@@ -36,6 +36,7 @@ angular.module('CodeGoblins', [
         $state.go('error_404');
       }
     });
+    
   }])
   .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
     $locationProvider.html5Mode(true).hashPrefix('!');
@@ -126,9 +127,10 @@ angular.module('codegoblins.controller')
   .controller('browse', ['$scope', '$http', '$rootScope', 'Refs', 'Profiles', '$timeout', 'Users', function($scope, $http, $rootScope, Refs, Profiles, $timeout, Users) {
 
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
-    console.log($rootScope.user);
     Users.findAll().then(function(response) {
+      $('.showOnload').show();
       $scope.users = response.data;
+      $('.showOnload').hide();
     }, function(error) {
       return 'Error Occured';
     });
@@ -154,7 +156,7 @@ angular.module('codegoblins.controller')
         type: 'error'
       });
     });
-
+        
 }]);
 angular.module('codegoblins.controller')
   .controller('profile', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog) {
@@ -430,7 +432,9 @@ angular.module('codegoblins.controller')
     };
 
     Questions.findAll().then(function(response) {
+      $('.showOnload').show();
       $scope.getAllQuestions = response.data;
+      $('.showOnload').hide();
       angular.forEach(response.data, function(value, key) {
         angular.forEach(value.tags, function(val, key) {
           $scope.the_tags = val;

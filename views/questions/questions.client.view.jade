@@ -10,6 +10,7 @@ section(data-ng-controller='public_questions')
         label(for='icon_prefix') Search
     .divider.divider--dark
     .container.question-list
+      md-progress-linear.showOnload(md-mode="indeterminate")
       ul.list(class='mt++')
         li.list-row.list-row--multi-line.list-row--has-separator(dir-paginate='fetchquestions in getAllQuestions | array | orderBy: "-timestamp" | filter:searchText | itemsPerPage: pageSize'  current-page='currentPage')
           .list-row__primary

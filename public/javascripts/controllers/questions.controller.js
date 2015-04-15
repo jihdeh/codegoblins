@@ -36,7 +36,7 @@ angular.module('codegoblins.controller')
         } else {
           swal({
             title: 'OOPS!!',
-            text: 'An error occured, please try later',
+            text: 'An error occured, please try later or check your internet connection',
             type: 'error'
           });
         }
@@ -62,7 +62,7 @@ angular.module('codegoblins.controller')
         } else {
           swal({
             title: 'OOPS!!',
-            text: 'An error occured, please try later',
+            text: 'An error occured, please try later or check your internet connection',
             type: 'error'
           });
         }

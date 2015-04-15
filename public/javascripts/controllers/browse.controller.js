@@ -7,7 +7,11 @@ angular.module('codegoblins.controller')
       $scope.users = response.data;
       $('.showOnload').hide();
     }, function(error) {
-      return 'Error Occured';
+      swal({
+        title: 'OOPS!!',
+        text: 'An error occured, please try later or check your internet connection',
+        type: 'error'
+      });
     });
 
 }]);

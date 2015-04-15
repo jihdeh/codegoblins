@@ -61,7 +61,7 @@ angular.module('codegoblins.controller')
     }, function(err) {
       swal({
         title: 'OOPS!!',
-        text: 'An error occured, please try later',
+        text: 'An error occured, please try later or check your internet connection',
         type: 'error'
       });
     });

@@ -1,15 +1,24 @@
-section(data-ng-controller='public_questions')
+section
   md-content.md-padding
     p.right-align
       i.mdi-action-alarm.right
       span {{questionData.timestamp | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}
     h3.md-headline Question: {{questionData.questionTopic}}
     div(ng-show='questionData.uid == user.uid')
-      | Click switch to toggle between Answered and Unanswered:
-      a(ng-click='markAnswer()')
-        md-switch(ng-model='data.cb', aria-label='Switch 1')
-      div(ng-if='data.cb')
-        div.large.mdi-action-spellcheck
+      .fab.ml
+        button.fab__primary.btn.btn--xl.btn--indigo.btn--fab(lx-ripple='', lx-tooltip='Feature', tooltip-position='bottom')
+          i.mdi.mdi-arrow-collapse
+          i.mdi.mdi-plus
+        .fab__actions.fab__actions--right
+          button.btn.btn--l.btn--black.btn--fab(lx-ripple='', lx-tooltip='Edit', tooltip-position='bottom')
+            a(ng-href='/edit/question/{{questionData.push_key}}')
+              i.mdi.mdi-pencil
+          button.btn.btn--l.btn--black.btn--fab(lx-ripple='', lx-tooltip='Toggle Answer', tooltip-position='bottom', data-ng-model='data', data-ng-click='markAnswer()')
+            i.large.mdi-action-spellcheck
+          button.btn.btn--l.btn--black.btn--fab(lx-ripple='', lx-tooltip='Trash', tooltip-position='bottom')
+            i.mdi.mdi-delete
+      div(ng-if='data')
+        div.large.mdi-action-spellcheck(lx-ripple='', lx-tooltip='Question has been answered', tooltip-position='left')
     .row
       .container.indigo.lighten-5.z-depth-2.question_overlay
         .md-body-1.question_body(data-ng-class: "{{'question_body_to_plnkr_margin': questionData.plnkr_link }")
@@ -18,8 +27,8 @@ section(data-ng-controller='public_questions')
           div.center.plnkr_container(ng-show='questionData.plnkr_link != "false"')
             iframe.plnkr-pane(ng-src="{{questionData.plnkr_link | trusted}}" frameborder="0" allowfullscreen="allowfullscreen")
       .container
-        div.spike-green-answer(ng-show='data.cb')
+        div.spike-green-answer(ng-show='data')
           | This Question has been answered.
-        div.spike-red-answer(ng-show='data.cb == false')
+        div.spike-red-answer(ng-show='data == false')
           | This Question has not been answered
         div#disqus_thread

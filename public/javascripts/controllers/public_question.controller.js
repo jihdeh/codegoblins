@@ -1,5 +1,5 @@
 angular.module('codegoblins.controller')
-  .controller('public_questions', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, Questions, $location) {
+  .controller('PublicQuestionsCtrl', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, Questions, $location) {
 
     $scope.currentPage = 1;
     $scope.pageSize = 10;
@@ -7,14 +7,13 @@ angular.module('codegoblins.controller')
     Questions.findOne().then(function(response) {
       $scope.questionData = response.data;
       if ($stateParams.id) {
-        $scope.data = {
-          cb: $scope.questionData.answered
-        };
+        $scope.data = $scope.questionData.answered;
       }
     }, function(err) {
-      console.log('error occured');
+      toastr.error('Error occured fetching data, please reload page');
     });
 
+    
     $(document).ready(function() {
       $('.showOnload-0').show();
       $('.plnkr_container').hide();
@@ -26,9 +25,12 @@ angular.module('codegoblins.controller')
     });
 
     $scope.markAnswer = function() {
-      if ($scope.data.cb) {
+      (function() {
+        $scope.data = !$scope.data;
+      })();
+      if ($scope.data) {
         Refs.questionsRef.child($stateParams.id).update({
-          answered: $scope.data.cb
+          answered: $scope.data
         }, function(err) {
           if (!err) {
             swal({

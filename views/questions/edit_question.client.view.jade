@@ -1,24 +1,23 @@
-section(data-ng-controller='questions')
+section
   md-toolbar.md-primary
     h1.md-toolbar-tools
-      | Ask your question
-  .container
+      | Edit your question
+  .container(data-ng-controller='QuestionsCtrl')
     md-content.md-padding
       form(name='question')
         md-input-container
           label Topic
-          input(required='', name='topics', ng-model='topic', minlength='10', md-maxlength='200')
+          input(required='', name='topics', ng-model='questionData.questionTopic', minlength='10', md-maxlength='200')
           div(ng-messages='question.topics.$error')
             div(ng-message='required') This is required.
             div(ng-message='minlength') The topic has to be more than 10 characters long.
             div(ng-message='md-maxlength') The topic has to be less than 200 characters long.
         md-input-container(flex='')
           label Body
-          textarea(name='body', required='' ng-model='body', columns='1', minlength='10', placeholder='Your comments if you will recommend this developer of not?', md-maxlength='1000')
+          textarea(name='body', required='' ng-model='questionData.questionBody', columns='1', minlength='10', placeholder='Your comments if you will recommend this developer of not?')
           div(ng-messages='question.body.$error')
             div(ng-message='required') This is required.
             div(ng-message='minlength') The body has to be more than 10 characters long.
-            div(ng-message='md-maxlength') The body has to be less than 1000 characters long.
         md-input-container
           h3
             | Enter 
@@ -26,15 +25,15 @@ section(data-ng-controller='questions')
               | Plnkr 
             | Embed Link (if any)
           label Plnkr link
-          input.plnkr_link(name='plnkr', ng-model='plnkr', md-maxlength='51')
+          input.plnkr_link(name='plnkr', ng-model='questionData.plnkr_link', md-maxlength='60')
           | Don't know where to find your plnkr link?, click here
         md-input-container.next-tag
           h3
             | Enter Tags relating to your question, e.g Javascript, Firebase, NodeJs
-          tags-input(ng-model='tags', name='tag', display-property='lang', allowed-tags-pattern='^[A-Z, a-z]+$',  add-on-comma='true' add-on-blur='false', add-on-space='true', min-tags='1' max-tags='5' allow-leftover-text='false')
+          tags-input(ng-model='questionData.tags', name='tag', display-property='lang', allowed-tags-pattern='^[A-Z, a-z]+$',  add-on-comma='true' add-on-blur='false', add-on-space='true', min-tags='1' max-tags='5' allow-leftover-text='false')
         md-progress-linear.showOnload-preloader(md-mode="indeterminate")
         .plnkr-div
           iframe.plnkr-pane(ng-src="{{plnkr_link | trusted}}" width="320" height="240" frameborder="0" allowfullscreen="allowfullscreen")
         section(layout='row', layout-sm='column', layout-align='center center')
           md-button.md-raised.commend-modal-btn(type='reset') Reset
-          md-button.md-raised.md-primary.commend-modal-btn(ng-click='submitQuestion()', ng-disabled='!question.$valid') Submit
+          md-button.md-raised.md-primary.commend-modal-btn(ng-click='updateQuestion(questionData)', ng-disabled='!question.$valid') Update

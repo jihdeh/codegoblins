@@ -30,7 +30,7 @@ angular.module('CodeGoblins', [
     $rootScope._ = window._;
     //handle page authentication restriction
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, error) {
-      var states = (toState.name !== 'about' && toState.name !== 'login' && toState.name !== 'questions' && toState.name !== 'public_questions' && toState.name !== 'error_404' && toState.name !== 'home');
+      var states = (toState.name !== 'about' && toState.name !== 'login' && toState.name !== 'questions' && toState.name !== 'public_question' && toState.name !== 'error_404' && toState.name !== 'home');
       if (!Refs.rootRef.getAuth() && states && !$location.search().token) {
         event.preventDefault(); 
         $state.go('error_404');
@@ -53,31 +53,37 @@ angular.module('CodeGoblins', [
         templateUrl: 'views/partials/about.html'
       })
       .state('profile', {
-        controllerProvider: 'HomeCtrl',
+        controller: 'ProfileCtrl',
         url: '/profile',
         templateUrl: 'views/users/profile.client.view.html'
       })
       .state('browse', {
         url: '/browse',
-        templateUrl: 'views/users/browse.client.view.html'
+        templateUrl: 'views/users/browse.client.view.html',
+        controller: 'BrowseCtrl',
       })
       .state('users', {
         url: '/profile/:id',
         templateUrl: 'views/users/public_profile.client.view.html',
-        controller: function($scope, $stateParams) {}
+        controller: 'PublicProfileCtrl'
       })
       .state('questions', {
         url: '/questions',
-        templateUrl: 'views/questions/questions.client.view.html'
+        templateUrl: 'views/questions/questions.client.view.html',
+        controller: 'PublicQuestionsCtrl'
       })
-      .state('public_questions', {
+      .state('public_question', {
         url: '/question/:id',
         templateUrl: 'views/questions/public_questions.client.view.html',
-        controller: function($scope, $stateParams) {}
+        controller: 'PublicQuestionsCtrl'
       })
-      .state('newQ', {
+      .state('ask_new_question', {
         url: '/new',
-        templateUrl: 'views/questions/question_page.client.view.html',
+        templateUrl: 'views/questions/ask_new.client.view.html'
+      })
+      .state('edit_question', {
+        url: '/edit/question/:id',
+        templateUrl: 'views/questions/edit_question.client.view.html',
         controller: function($scope, $stateParams) {}
       })
       .state('error_404', {
@@ -124,7 +130,7 @@ angular.module('codegoblins.controller')
   }]);
 
 angular.module('codegoblins.controller')
-  .controller('browse', ['$scope', '$http', '$rootScope', 'Refs', 'Profiles', '$timeout', 'Users', function($scope, $http, $rootScope, Refs, Profiles, $timeout, Users) {
+  .controller('BrowseCtrl', ['$scope', '$http', '$rootScope', 'Refs', 'Profiles', '$timeout', 'Users', function($scope, $http, $rootScope, Refs, Profiles, $timeout, Users) {
 
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
     Users.findAll().then(function(response) {
@@ -163,7 +169,7 @@ angular.module('codegoblins.controller')
         
 }]);
 angular.module('codegoblins.controller')
-  .controller('profile', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog) {
+  .controller('ProfileCtrl', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog) {
 
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
 
@@ -265,7 +271,7 @@ angular.module('codegoblins.controller')
   }]);
 
 angular.module('codegoblins.controller')
-  .controller('publicProfile', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', 'Questions', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, $mdDialog, Questions) {
+  .controller('PublicProfileCtrl', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', 'Questions', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, $mdDialog, Questions) {
 
     $scope.currentPage = 1;
     $scope.pageSize = 2;
@@ -385,7 +391,7 @@ angular.module('codegoblins.controller')
   }]);
 
 angular.module('codegoblins.controller')
-  .controller('public_questions', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, Questions, $location) {
+  .controller('PublicQuestionsCtrl', ['$scope', 'Refs', 'Profiles', '$rootScope', '$stateParams', 'toastr', '$timeout', 'Users', 'SweetAlert', 'Questions', '$location', function($scope, Refs, Profiles, $rootScope, $stateParams, toastr, $timeout, Users, SweetAlert, Questions, $location) {
 
     $scope.currentPage = 1;
     $scope.pageSize = 10;
@@ -393,14 +399,13 @@ angular.module('codegoblins.controller')
     Questions.findOne().then(function(response) {
       $scope.questionData = response.data;
       if ($stateParams.id) {
-        $scope.data = {
-          cb: $scope.questionData.answered
-        };
+        $scope.data = $scope.questionData.answered;
       }
     }, function(err) {
-      console.log('error occured');
+      toastr.error('Error occured fetching data, please reload page');
     });
 
+    
     $(document).ready(function() {
       $('.showOnload-0').show();
       $('.plnkr_container').hide();
@@ -412,9 +417,12 @@ angular.module('codegoblins.controller')
     });
 
     $scope.markAnswer = function() {
-      if ($scope.data.cb) {
+      (function() {
+        $scope.data = !$scope.data;
+      })();
+      if ($scope.data) {
         Refs.questionsRef.child($stateParams.id).update({
-          answered: $scope.data.cb
+          answered: $scope.data
         }, function(err) {
           if (!err) {
             swal({
@@ -474,29 +482,60 @@ angular.module('codegoblins.controller')
   }]);
 
 angular.module('codegoblins.controller')
-  .controller('questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', '$window', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location, $window) {
+  .controller('QuestionsCtrl', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', '$window', '$stateParams', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location, $window, $stateParams) {
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
 
     $(document).ready(function() {
       $('.showOnload-preloader').hide();
       $('.plnkr-div').hide();
-      $('.plnkr_link').focusout(function() {
+      $('.plnkr_link').on('focusout', function() {
         $scope.plnkr_link = $('.plnkr_link').val();
 
         if ($scope.plnkr_link && $scope.plnkr_link.substring(0, 4) !== 'http') {
           $scope.plnkr_link = 'http://' + $scope.plnkr_link;
         }
-        
-        if ($scope.plnkr_link) {
-          $('.showOnload-preloader').show();
+
+        if ($scope.plnkr_link != '') {
+          // $('.showOnload-preloader').show();
           $('.plnkr-pane').load(function() {
             $('.plnkr-div').show();
-            $('.showOnload-preloader').hide();
             $('.plnkr-pane').addClass('embed-frame');
+            $('.showOnload-preloader').hide();
           });
         };
       });
     });
+
+
+    Questions.findOne().then(function(response) {
+      $scope.questionData = response.data;
+    }, function(err) {
+      toastr.error('Error occured fetching data, please reload page');
+    });
+
+    $scope.updateQuestion = function(questionData) {
+      Refs.questionsRef.child($stateParams.id).update(questionData, function(err) {
+        if (!err) {
+          swal({
+            title: 'OHHyEAH!!',
+            text: 'Question has been updated',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, update it!",
+            closeOnConfirm: false
+          }, function() {
+            $window.location = '/question/' + $stateParams.id;
+          });
+        } else {
+          swal({
+            title: 'OOPS!!',
+            text: 'An error occured, please try later or check your internet connection',
+            type: 'error'
+          });
+        }
+      })
+    };
 
     $scope.submitQuestion = function() {
       //save question details
@@ -547,6 +586,7 @@ angular.module('codegoblins.controller')
         }
       });
     };
+
 
   }]);
 

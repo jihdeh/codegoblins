@@ -10,8 +10,8 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
-var routes = ['/login', '/trends', '/updates', '/profile', '/browse', '/profile/*', '/about', 
-                '/questions', '/new', '/question/*']
+var routes = ['/login', '/profile', '/browse', '/profile/*', '/about', 
+                '/questions', '/new', '/question/*', '/edit/question/*']
 
 router.get(routes, function(req, res) {
 	res.render('index');

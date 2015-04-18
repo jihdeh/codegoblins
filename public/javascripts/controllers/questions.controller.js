@@ -1,27 +1,58 @@
 angular.module('codegoblins.controller')
-  .controller('questions', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', '$window', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location, $window) {
+  .controller('QuestionsCtrl', ['$scope', 'Refs', 'Profiles', '$rootScope', 'toastr', '$timeout', 'Users', 'SweetAlert', '$mdDialog', '$http', 'Questions', '$location', '$window', '$stateParams', function($scope, Refs, Profiles, $rootScope, toastr, $timeout, Users, SweetAlert, $mdDialog, $http, Questions, $location, $window, $stateParams) {
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
 
     $(document).ready(function() {
       $('.showOnload-preloader').hide();
       $('.plnkr-div').hide();
-      $('.plnkr_link').focusout(function() {
+      $('.plnkr_link').on('focusout', function() {
         $scope.plnkr_link = $('.plnkr_link').val();
 
         if ($scope.plnkr_link && $scope.plnkr_link.substring(0, 4) !== 'http') {
           $scope.plnkr_link = 'http://' + $scope.plnkr_link;
         }
-        
-        if ($scope.plnkr_link) {
-          $('.showOnload-preloader').show();
+
+        if ($scope.plnkr_link != '') {
+          // $('.showOnload-preloader').show();
           $('.plnkr-pane').load(function() {
             $('.plnkr-div').show();
-            $('.showOnload-preloader').hide();
             $('.plnkr-pane').addClass('embed-frame');
+            $('.showOnload-preloader').hide();
           });
         };
       });
     });
+
+
+    Questions.findOne().then(function(response) {
+      $scope.questionData = response.data;
+    }, function(err) {
+      toastr.error('Error occured fetching data, please reload page');
+    });
+
+    $scope.updateQuestion = function(questionData) {
+      Refs.questionsRef.child($stateParams.id).update(questionData, function(err) {
+        if (!err) {
+          swal({
+            title: 'OHHyEAH!!',
+            text: 'Question has been updated',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, update it!",
+            closeOnConfirm: false
+          }, function() {
+            $window.location = '/question/' + $stateParams.id;
+          });
+        } else {
+          swal({
+            title: 'OOPS!!',
+            text: 'An error occured, please try later or check your internet connection',
+            type: 'error'
+          });
+        }
+      })
+    };
 
     $scope.submitQuestion = function() {
       //save question details
@@ -72,5 +103,6 @@ angular.module('codegoblins.controller')
         }
       });
     };
+
 
   }]);

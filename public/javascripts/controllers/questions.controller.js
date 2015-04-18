@@ -11,7 +11,7 @@ angular.module('codegoblins.controller')
         if ($scope.plnkr_link && $scope.plnkr_link.substring(0, 4) !== 'http') {
           $scope.plnkr_link = 'http://' + $scope.plnkr_link;
         }
-        // var plnkr_iframe = '';
+        
         if ($scope.plnkr_link) {
           $('.showOnload-preloader').show();
           $('.plnkr-pane').load(function() {
@@ -72,15 +72,5 @@ angular.module('codegoblins.controller')
         }
       });
     };
-
-    // Refs.questionsRef.orderByChild('uid').equalTo($rootScope.key).once('value', function(snap) {
-    //   if (snap) {
-    //     console.log(snap.val());
-    //   } else {
-    //     console.log('no data');
-    //   }
-    // });
-
-
 
   }]);

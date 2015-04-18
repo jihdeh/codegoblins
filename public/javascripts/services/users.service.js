@@ -3,7 +3,7 @@ angular.module('codegoblins.service')
     return {
 
       findAll: function(cb) {
-        return $http.get('/users')
+        return $http.get('/api/v1/users')
           .success(function(data, status, headers, config) {
             return data;
           })
@@ -13,7 +13,7 @@ angular.module('codegoblins.service')
       },
 
       findOne: function(cb) {
-        return $http.get('/users/' + $stateParams.id)
+        return $http.get('/api/v1/users/' + $stateParams.id)
           .success(function(data, status, headers, config) {
             return data;
           })

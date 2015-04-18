@@ -486,7 +486,7 @@ angular.module('codegoblins.controller')
         if ($scope.plnkr_link && $scope.plnkr_link.substring(0, 4) !== 'http') {
           $scope.plnkr_link = 'http://' + $scope.plnkr_link;
         }
-        // var plnkr_iframe = '';
+        
         if ($scope.plnkr_link) {
           $('.showOnload-preloader').show();
           $('.plnkr-pane').load(function() {
@@ -547,16 +547,6 @@ angular.module('codegoblins.controller')
         }
       });
     };
-
-    // Refs.questionsRef.orderByChild('uid').equalTo($rootScope.key).once('value', function(snap) {
-    //   if (snap) {
-    //     console.log(snap.val());
-    //   } else {
-    //     console.log('no data');
-    //   }
-    // });
-
-
 
   }]);
 
@@ -669,7 +659,7 @@ angular.module('codegoblins.service')
     return {
 
       findAll: function(cb) {
-        return $http.get('/all/questions')
+        return $http.get('/api/v1/questions')
           .success(function(data, status, headers, config){
             return data;
           })
@@ -679,7 +669,7 @@ angular.module('codegoblins.service')
       },
 
       findOne: function(cb) {
-        return $http.get('/questions/'+ $stateParams.id)
+        return $http.get('/api/v1/questions/'+ $stateParams.id)
           .success(function(data, status, headers, config) {
             return data;
           })
@@ -719,7 +709,7 @@ angular.module('codegoblins.service')
     return {
 
       findAll: function(cb) {
-        return $http.get('/users')
+        return $http.get('/api/v1/users')
           .success(function(data, status, headers, config) {
             return data;
           })
@@ -729,7 +719,7 @@ angular.module('codegoblins.service')
       },
 
       findOne: function(cb) {
-        return $http.get('/users/' + $stateParams.id)
+        return $http.get('/api/v1/users/' + $stateParams.id)
           .success(function(data, status, headers, config) {
             return data;
           })

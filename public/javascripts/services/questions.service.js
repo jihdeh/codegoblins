@@ -4,7 +4,7 @@ angular.module('codegoblins.service')
     return {
 
       findAll: function(cb) {
-        return $http.get('/all/questions')
+        return $http.get('/api/v1/questions')
           .success(function(data, status, headers, config){
             return data;
           })
@@ -14,7 +14,7 @@ angular.module('codegoblins.service')
       },
 
       findOne: function(cb) {
-        return $http.get('/questions/'+ $stateParams.id)
+        return $http.get('/api/v1/questions/'+ $stateParams.id)
           .success(function(data, status, headers, config) {
             return data;
           })

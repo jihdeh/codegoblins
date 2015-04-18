@@ -15,7 +15,15 @@ angular.module('codegoblins.controller')
       console.log('error occured');
     });
 
-    // $location.search('search', ['erre', 'uwww']);
+    $(document).ready(function() {
+      $('.showOnload-0').show();
+      $('.plnkr_container').hide();
+      $('.plnkr-pane').load(function() {
+        $('.plnkr_container').show();
+        $('.showOnload-0').hide();
+        $('.plnkr-pane').addClass('embed-frame');
+      });
+    });
 
     $scope.markAnswer = function() {
       if ($scope.data.cb) {
@@ -50,7 +58,6 @@ angular.module('codegoblins.controller')
     };
 
     Questions.findAll().then(function(response) {
-      $('.showOnload').show();
       $scope.getAllQuestions = response.data;
       $('.showOnload').hide();
       angular.forEach(response.data, function(value, key) {

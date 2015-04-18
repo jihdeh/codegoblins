@@ -3,21 +3,25 @@ angular.module('codegoblins.controller')
     $rootScope.key = Refs.usersRef.child($rootScope.user.auth.uid).key();
 
     $(document).ready(function() {
-      $('.load_preloader').hide();
+      $('.showOnload-preloader').hide();
+      $('.plnkr-div').hide();
       $('.plnkr_link').focusout(function() {
         $scope.plnkr_link = $('.plnkr_link').val();
 
         if ($scope.plnkr_link && $scope.plnkr_link.substring(0, 4) !== 'http') {
           $scope.plnkr_link = 'http://' + $scope.plnkr_link;
         }
-        var plnkr_iframe = '<iframe style="border: 1px solid #999; width: 100%; height: 700px; background-color: #fff;" src="' + $scope.plnkr_link + '" width="320" height="240" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
+        // var plnkr_iframe = '';
         if ($scope.plnkr_link) {
-          $('.plnkr-div').html(plnkr_iframe);
-          $('.load_preloader').hide();
+          $('.showOnload-preloader').show();
+          $('.plnkr-pane').load(function() {
+            $('.plnkr-div').show();
+            $('.showOnload-preloader').hide();
+            $('.plnkr-pane').addClass('embed-frame');
+          });
         };
       });
     });
-
 
     $scope.submitQuestion = function() {
       //save question details

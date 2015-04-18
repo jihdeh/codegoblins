@@ -32,16 +32,9 @@ section(data-ng-controller='questions')
           h3
             | Enter Tags relating to your question, e.g Javascript, Firebase, NodeJs
           tags-input(ng-model='tags', name='tag', display-property='lang', allowed-tags-pattern='^[A-Z, a-z]+$',  add-on-comma='true' add-on-blur='false', add-on-space='true', min-tags='1' max-tags='5' allow-leftover-text='false')
+        md-progress-linear.showOnload-preloader(md-mode="indeterminate")
         .plnkr-div
-          .load_preloader
-            .preloader-wrapper.big.active.center
-              .spinner-layer.spinner-blue-only
-                .circle-clipper.left
-                  .circle
-                .gap-patch
-                  .circle
-                .circle-clipper.right
-                  .circle
+          iframe.plnkr-pane(ng-src="{{plnkr_link | trusted}}" width="320" height="240" frameborder="0" allowfullscreen="allowfullscreen")
         section(layout='row', layout-sm='column', layout-align='center center')
           md-button.md-raised.commend-modal-btn(type='reset') Reset
           md-button.md-raised.md-primary.commend-modal-btn(ng-click='submitQuestion()', ng-disabled='!question.$valid') Submit

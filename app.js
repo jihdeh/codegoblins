@@ -17,8 +17,7 @@ var app = express();
 
 var forceSsl = function(req, res, next) {
   if (req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect(['//', req.hostname, req.url].join(''));
-    console.log(' url ooo  ' + req.url + '  hostname  ' + req.hostname + ' path ' + req.path);
+    return res.redirect(['https://', req.hostname, req.url].join(''));
   }
   return next();
 };

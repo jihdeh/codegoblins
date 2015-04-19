@@ -44,7 +44,6 @@ main
             .list-row__content
               a(ng-href='/question/{{fetchquestions.push_key}}')
                 span.list-text.display-block(data-ng-bind='fetchquestions.questionTopic')
-              span.list-text.display-block.fs-body-1.tc-black-2.truncate(data-ng-bind='fetchquestions.questionBody')
               span.display-block.fs-body-1.tc-black-2.tag-time-line
                 div.time_col(am-time-ago='{{fetchquestions.timestamp}}')
                 a.collection-item(href='#!', data-ng-repeat='tags in fetchquestions.tags')

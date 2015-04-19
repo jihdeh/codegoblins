@@ -12,12 +12,13 @@ section
             div(ng-message='required') This is required.
             div(ng-message='minlength') The topic has to be more than 10 characters long.
             div(ng-message='md-maxlength') The topic has to be less than 200 characters long.
-        md-input-container(flex='')
-          label Body
-          textarea(name='body', required='' ng-model='questionData.questionBody', columns='1', minlength='10', placeholder='Your comments if you will recommend this developer of not?')
-          div(ng-messages='question.body.$error')
-            div(ng-message='required') This is required.
-            div(ng-message='minlength') The body has to be more than 10 characters long.
+        label Body
+        .wmd-button-bar
+        ng-markdown(ng-model='questionData.questionBody' required='' name='markdownText', minlength='10')
+        .wmd-preview
+        div(ng-messages='question.markdownText.$error')
+          div(ng-message='required') This is required.
+          div(ng-message='minlength') The body has to be more than 10 characters long.
         md-input-container
           h3
             | Enter 

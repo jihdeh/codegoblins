@@ -22,7 +22,7 @@ section
     .row
       .container.indigo.lighten-5.z-depth-2.question_overlay
         .md-body-1.question_body(data-ng-class: "{{'question_body_to_plnkr_margin': questionData.plnkr_link }")
-          {{questionData.questionBody}}
+          ng-markdown-preview(ng-model='questionData.questionBody')
           md-progress-linear.showOnload-0(md-mode="indeterminate")
           div.center.plnkr_container(ng-show='questionData.plnkr_link != "false"')
             iframe.plnkr-pane(ng-src="{{questionData.plnkr_link | trusted}}" frameborder="0" allowfullscreen="allowfullscreen")

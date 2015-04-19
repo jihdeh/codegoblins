@@ -10,6 +10,7 @@ angular.module('CodeGoblins', [
     'chart.js',
     'firebase',
     'mentio',
+    'ngMarkdown',
     'ngTagsInput',
     'angularMoment',
     'ngMaterial',

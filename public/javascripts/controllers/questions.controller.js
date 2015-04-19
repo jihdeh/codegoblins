@@ -53,12 +53,15 @@ angular.module('codegoblins.controller')
         }
       })
     };
-
+    $scope.data = {
+      content: '## hello world'
+    };
+    
     $scope.submitQuestion = function() {
       //save question details
       $scope.push_key = Refs.questionsRef.push({
         questionTopic: $scope.topic,
-        questionBody: $scope.body,
+        questionBody: $scope.markdownText,
         uid: $rootScope.key,
         plnkr_link: $scope.plnkr_link || 'false',
         avatar: $rootScope.user.google.cachedUserProfile.picture,

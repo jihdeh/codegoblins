@@ -90,3 +90,12 @@ span.badge.new {
   float: right;
   margin: 0 !important;
 }
+.mkd-input {
+  height: 326px;
+  color: white;
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+i.wmd-spacer {
+  background-color: #000;
+}

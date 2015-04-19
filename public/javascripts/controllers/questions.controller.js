@@ -8,11 +8,11 @@ angular.module('codegoblins.controller')
       $('.plnkr_link').on('focusout', function() {
         $scope.plnkr_link = $('.plnkr_link').val();
 
-        if ($scope.plnkr_link && $scope.plnkr_link.substring(0, 4) == 'http') {
+        if ($scope.plnkr_link && $scope.plnkr_link.substring(0, 4) === 'http') {
           $scope.plnkr_link = '//' + $scope.plnkr_link;
         }
 
-        if ($scope.plnkr_link != '') {
+        if ($scope.plnkr_link !== '') {
           // $('.showOnload-preloader').show();
           $('.plnkr-pane').load(function() {
             $('.plnkr-div').show();

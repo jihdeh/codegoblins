@@ -27,7 +27,7 @@ angular.module('codegoblins.controller')
           $timeout(function() {
             $scope.commendsData = data;
             for (var prop in $scope.commendsData) {
-              if ($scope.commendsData[prop].uid == $rootScope.key) {
+              if ($scope.commendsData[prop].uid === $rootScope.key) {
                 $('#btn-commends').text('You have already commended this person').attr('disabled', true);
               }
             }
@@ -40,11 +40,17 @@ angular.module('codegoblins.controller')
       return 'No data returned';
     });
 
-    var alert, showDialog;
+    var showDialog;
     $scope.showDialog = showDialog;
 
     function showDialog($event) {
       var parentEl = angular.element(document.body);
+      function DialogController(scope, $mdDialog, sendCommend) {
+
+        scope.closeDialog = function() {
+          $mdDialog.hide();
+        }
+      }
       $mdDialog.show({
         parent: parentEl,
         targetEvent: $event,
@@ -58,12 +64,6 @@ angular.module('codegoblins.controller')
         controller: DialogController
       });
 
-      function DialogController(scope, $mdDialog, sendCommend) {
-
-        scope.closeDialog = function() {
-          $mdDialog.hide();
-        }
-      }
     };
 
     $scope.sendCommend = function() {

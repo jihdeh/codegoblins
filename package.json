@@ -17,6 +17,7 @@
     "express": "~4.11.1",
     "firebase": "^2.2.2",
     "gulp": "^3.8.11",
+    "gulp-bower": "0.0.10",
     "gulp-concat": "^2.4.3",
     "gulp-csslint": "^0.1.5",
     "gulp-jade": "^0.11.0",
